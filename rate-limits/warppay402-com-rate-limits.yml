@@ -1,0 +1,37 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: WarpPay402 Studio
+providerId: warppay402-com
+created: '2026-09-19'
+modified: '2026-09-19'
+generated: '2026-09-19'
+method: searched
+source: 'https://www.warppay402.com/privacy-policy (section 4: "All incoming HTTP requests pass through Cloudflare edge protection
+  to filter malicious traffic, enforce rate limits"), https://www.warppay402.com/terms-of-service (section 2 forbids traffic
+  "intended to ... bypass rate limits"), the @warppay402/server README ("x402-Guard ... high-velocity traffic spikes"), and
+  response headers observed on https://api.warppay402.com on 2026-09-19'
+sources:
+- https://www.warppay402.com/privacy-policy
+- https://www.warppay402.com/terms-of-service
+tags:
+- Rate Limiting
+- x402
+description: 'No numeric rate limits are published. The provider states that rate limits exist and are enforced at the Cloudflare
+  edge and by its own "x402-guard" pre-flight middleware (which stamps X-Guard-Inspected: true on responses), but publishes
+  no per-key, per-wallet or per-endpoint numbers, no window, and no RateLimit-*/Retry-After headers; the exhaustion status
+  is undocumented. The effective throttle is economic: each call must carry a settled USDC payment.'
+limit_count: 0
+limits: []
+headers:
+  observed:
+  - cf-ray
+  - 'cf-cache-status: DYNAMIC'
+  - 'x-guard-inspected: true'
+  - 'access-control-expose-headers: PAYMENT-REQUIRED, PAYMENT-RESPONSE'
+  rate_limit_headers: null
+  retryAfter: null
+responseCodes:
+  throttled: null
+  note: Cloudflare edge limits would surface as 429 or a 1015 challenge page but neither is documented or was observed.
+note: 'An honest zero: limits exist per the provider''s own policy text but are not published as data. Recorded 2026-09-19.'

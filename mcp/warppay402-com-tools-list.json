@@ -1,0 +1,345 @@
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+        "tools": [
+            {
+                "name": "public_data_feed",
+                "description": "Public attestation data feed JSON records ($0.0001 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "filename": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "filename"
+                    ]
+                }
+            },
+            {
+                "name": "data_feeds",
+                "description": "Pre-scraped AI data feeds ($0.001 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "feedId": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "feedId"
+                    ]
+                }
+            },
+            {
+                "name": "web_scraper",
+                "description": "Scrapes web pages into clean markdown ($0.001 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "url"
+                    ]
+                }
+            },
+            {
+                "name": "browser_scraper",
+                "description": "Unblockable JS-rendering browser scraper ($0.005 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "url"
+                    ]
+                }
+            },
+            {
+                "name": "base_analytics",
+                "description": "Fetches Base 0x wallet balance and nonce stats ($0.002 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "address": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "address"
+                    ]
+                }
+            },
+            {
+                "name": "arc_analytics",
+                "description": "Fetches Arc Mainnet block height, gas fees, and node metrics ($0.001 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {}
+                }
+            },
+            {
+                "name": "arc_network_oracle_query",
+                "description": "Pre-flight Arc Mainnet telemetry: RPC latency (ms), gas prices (Gwei), native USDC balance, and account nonce ($0.10 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "includeGasTrends": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "checkMerchantAccount": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                }
+            },
+            {
+                "name": "pdf_extractor",
+                "description": "Extracts plain text preview from public PDF URLs ($0.005 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "pdfUrl": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "pdfUrl"
+                    ]
+                }
+            },
+            {
+                "name": "render_screenshot",
+                "description": "Captures rendered webpage screenshot image data ($0.01 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "url"
+                    ]
+                }
+            },
+            {
+                "name": "extract_json",
+                "description": "Extracts structured JSON data from web pages ($0.01 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "url"
+                    ]
+                }
+            },
+            {
+                "name": "smart_contract_verifier",
+                "description": "Source code analysis, ABI fetching, and proxy validation ($0.02 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "address": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "address"
+                    ]
+                }
+            },
+            {
+                "name": "get_aerodrome_yields",
+                "description": "Fetch live Aerodrome DEX pool yields, APYs, and TVL on Base Mainnet ($0.003 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {}
+                }
+            },
+            {
+                "name": "aerodrome_swap",
+                "description": "Executes low-slippage token swaps directly via Aerodrome Finance Router on Base Mainnet ($0.01 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "tokenIn": {
+                            "type": "string"
+                        },
+                        "tokenOut": {
+                            "type": "string"
+                        },
+                        "amountIn": {
+                            "type": "string"
+                        },
+                        "decimalsIn": {
+                            "type": "number"
+                        },
+                        "isStable": {
+                            "type": "boolean"
+                        }
+                    },
+                    "required": [
+                        "tokenIn",
+                        "tokenOut",
+                        "amountIn",
+                        "decimalsIn",
+                        "isStable"
+                    ]
+                }
+            },
+            {
+                "name": "aerodrome_clamm",
+                "description": "Allows agents to open, adjust, and rebalance concentrated liquidity ranges on Aerodrome Slipstream ($0.01 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "action": {
+                            "type": "string",
+                            "enum": [
+                                "mint",
+                                "increaseLiquidity",
+                                "decreaseLiquidity",
+                                "collect"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "action"
+                    ]
+                }
+            },
+            {
+                "name": "aerodrome_veaero",
+                "description": "Automates $AERO locking, epoch gauge voting, and bribe reward harvesting on Aerodrome ($0.01 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "action": {
+                            "type": "string",
+                            "enum": [
+                                "createLock",
+                                "increaseAmount",
+                                "increaseUnlockTime",
+                                "vote",
+                                "claimBribes"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "action"
+                    ]
+                }
+            },
+            {
+                "name": "deploy_contract",
+                "description": "Deploys custom escrow, bounty, or agent smart contracts to Base Mainnet ($5.00 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "contractType": {
+                            "type": "string",
+                            "enum": [
+                                "escrow",
+                                "bounty",
+                                "subscription",
+                                "pendle"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "contractType"
+                    ]
+                }
+            },
+            {
+                "name": "deploy_solana_contract",
+                "description": "Programmatically initializes SPL Escrows, cNFT Badge Issuers, or Raydium Vaults on Solana Mainnet ($5.00 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "contractType": {
+                            "type": "string",
+                            "enum": [
+                                "spl_escrow",
+                                "cnft_badge",
+                                "raydium_vault"
+                            ]
+                        },
+                        "params": {
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "contractType"
+                    ]
+                }
+            },
+            {
+                "name": "deploy_arc_contract",
+                "description": "Deploys custom escrow, bounty, or agent smart contracts to Arc Mainnet ($5.00 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "contractType": {
+                            "type": "string",
+                            "enum": [
+                                "escrow",
+                                "bounty",
+                                "subscription"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "contractType"
+                    ]
+                }
+            },
+            {
+                "name": "arc_cctp_bridge",
+                "description": "Bridges USDC cross-chain from Arc Mainnet via Circle CCTP ($0.25 USDC)",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "amountUsdc": {
+                            "type": "string"
+                        },
+                        "destinationChain": {
+                            "type": "string",
+                            "enum": [
+                                "ethereum",
+                                "avalanche",
+                                "optimism",
+                                "arbitrum",
+                                "solana",
+                                "base"
+                            ]
+                        },
+                        "recipientAddress": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "amountUsdc",
+                        "destinationChain",
+                        "recipientAddress"
+                    ]
+                }
+            }
+        ]
+    }
+}

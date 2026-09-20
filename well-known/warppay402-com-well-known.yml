@@ -1,0 +1,249 @@
+generated: '2026-09-19'
+method: probed
+source: live GET probes of every path below on warppay402.com, www.warppay402.com and api.warppay402.com on 2026-09-19 (browser
+  User-Agent)
+summary: 'The company site (Google Sites behind Cloudflare) serves no well-known documents: the apex 301s every path to www,
+  and www answers every path with a true 404. The API host api.warppay402.com serves four real discovery documents — an A2A
+  agent card at the legacy /.well-known/agent.json (the canonical /.well-known/agent-card.json 302s to it), an MCP manifest
+  at /.well-known/mcp.json, an x402 service manifest at /.well-known/x402-manifest.json, and an agent-offers catalog at /agent-offers.json
+  — plus llms.txt, openapi.json and a sitemap that lists exactly these. Nothing on any host serves security.txt, openid-configuration,
+  oauth-authorization-server, oauth-protected-resource, api-catalog, ai-plugin.json, ucp.json, acp.json, aauth-resource.json
+  or an apis.json; there is no OAuth surface at all (access is metered by x402 payment, not identity), so the RFC 8414 / RFC
+  9728 absences are consistent with the auth model rather than an omission.'
+pointer_basis: 'WellKnown pointer emitted on the strength of three real /.well-known/ documents on api.warppay402.com (200,
+  application/json, parse as JSON objects with the expected shape). SecurityTxt pointer NOT emitted: RFC 9116 is unimplemented
+  on every host. No api-catalog, so the well_known_catalog dimension is expected to stay false.'
+mcp_host_note: The MCP server shares the API host (https://api.warppay402.com/mcp), so the RFC 9728 probe of the MCP host
+  is the api.warppay402.com row set; /.well-known/oauth-protected-resource 404s there.
+hosts:
+- host: warppay402.com
+  role: registrable domain (Website pointer); 301s to www
+  documents:
+  - path: /.well-known/security.txt
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/security.txt
+  - path: /.well-known/openid-configuration
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/openid-configuration
+  - path: /.well-known/oauth-authorization-server
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/oauth-authorization-server
+  - path: /.well-known/oauth-protected-resource
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/oauth-protected-resource
+  - path: /.well-known/api-catalog
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/api-catalog
+  - path: /.well-known/api-catalog.json
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/api-catalog.json
+  - path: /.well-known/ai-plugin.json
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/ai-plugin.json
+  - path: /.well-known/ucp.json
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/ucp.json
+  - path: /.well-known/acp.json
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/acp.json
+  - path: /.well-known/aauth-resource.json
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/aauth-resource.json
+  - path: /.well-known/apis.json
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/apis.json
+  - path: /apis.json
+    status: 301
+    note: 301 to https://www.warppay402.com/apis.json
+  - path: /apis.yml
+    status: 301
+    note: 301 to https://www.warppay402.com/apis.yml
+  - path: /.well-known/agent-card.json
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/agent-card.json
+  - path: /.well-known/agent.json
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/agent.json
+  - path: /.well-known/mcp.json
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/mcp.json
+  - path: /.well-known/x402-manifest.json
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/x402-manifest.json
+  - path: /.well-known/mcp/server-card.json
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/mcp/server-card.json
+  - path: /.well-known/skills/index.json
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/skills/index.json
+  - path: /.well-known/agentic-commerce
+    status: 301
+    note: 301 to https://www.warppay402.com/.well-known/agentic-commerce
+  - path: /agent-offers.json
+    status: 301
+    note: 301 to https://www.warppay402.com/agent-offers.json
+  - path: /llms.txt
+    status: 301
+    note: 301 to https://www.warppay402.com/llms.txt
+  - path: /openapi.json
+    status: 301
+    note: 301 to https://www.warppay402.com/openapi.json
+- host: www.warppay402.com
+  role: company site (Google Sites, Cloudflare-fronted)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/openid-configuration
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/api-catalog
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/api-catalog.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/ucp.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/acp.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/aauth-resource.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/apis.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /apis.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /apis.yml
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/agent-card.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/agent.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/mcp.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/x402-manifest.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/mcp/server-card.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/skills/index.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /.well-known/agentic-commerce
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /agent-offers.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /llms.txt
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+  - path: /openapi.json
+    status: 404
+    body: Google Sites HTML 404 page (~114 KB), a real 404 status
+- host: api.warppay402.com
+  role: API baseURL host, OpenAPI servers[] host and MCP server host
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /.well-known/openid-configuration
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /.well-known/api-catalog
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /.well-known/api-catalog.json
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /.well-known/ucp.json
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /.well-known/acp.json
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /.well-known/aauth-resource.json
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /.well-known/apis.json
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /apis.json
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /apis.yml
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /.well-known/agent-card.json
+    status: 302
+    location: https://api.warppay402.com/.well-known/agent.json
+    note: Canonical A2A path redirects to the legacy document; not counted as a separate document.
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json
+    file: warppay402-com-agent.json
+    note: A2A agent card (legacy path); graded flavored in a2a/warppay402-com-a2a.yml. Also copied verbatim to a2a/warppay402-com-agent-card.json.
+  - path: /.well-known/mcp.json
+    status: 200
+    content_type: application/json
+    file: warppay402-com-mcp.json
+    note: 'MCP discovery manifest: schema_version 1.0, mcp_endpoint https://api.warppay402.com/mcp?v=2, openapi_spec, 19 tools
+      with endpoint + price + networks.'
+  - path: /.well-known/x402-manifest.json
+    status: 200
+    content_type: application/json
+    file: warppay402-com-x402-manifest.json
+    note: 'x402 service manifest: baseUrl, paymentNetwork eip155:8453, acceptedAsset (Base USDC), 19 endpoints with method
+      + costUSD.'
+  - path: /.well-known/mcp/server-card.json
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /.well-known/skills/index.json
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /.well-known/agentic-commerce
+    status: 404
+    body: text/plain "404 Not Found" (13 bytes)
+  - path: /agent-offers.json
+    status: 200
+    content_type: application/json
+    file: warppay402-com-agent-offers.json
+    note: 'Agent offers catalog (catalogVersion 1.0.0): 19 offers with endpoint, method, priceUsdc and per-tool JSON Schema.'
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain; charset=UTF-8
+    file: ../llms/warppay402-com-llms.txt
+    note: Saved under llms/.
+  - path: /openapi.json
+    status: 200
+    content_type: application/json
+    file: ../openapi/_original/warppay402-com-openapi.json
+    note: OpenAPI 3.1.0, 19 operations; saved verbatim under openapi/_original/.

@@ -1,0 +1,100 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  https://www.warppay402.com/ (access model, "traditional API access tokens" by email), the @warppay402/server and
+  @warppay402/sdk READMEs (x402 V2 headers, replay protection, signing), openapi/warppay402-com-openapi.yml, and live
+  402 responses from https://api.warppay402.com observed 2026-09-19. Cross-links: authentication/, errors/, lifecycle/,
+  rate-limits/, plans/.
+description: >-
+  Cross-cutting runtime semantics of the WarpPay402 gateway. The defining convention is that access is priced, not
+  authenticated: every operation answers 402 with an x402 v2 challenge and is executed once a signed USDC transfer is
+  presented. There is no pagination, expansion, metadata or versioning header surface — the API is 19 fire-and-forget
+  tool calls, most of which act on public blockchains and cannot be undone.
+base_url: https://api.warppay402.com
+api_style: REST over HTTPS, JSON request bodies, JSON responses; the same tools are exposed over MCP (JSON-RPC) at /mcp
+authentication:
+  scheme: x402 payment challenge (HTTP 402 -> PAYMENT-SIGNATURE) instead of identity credentials
+  key_types: none (no API keys by design; flat-rate access tokens offered by email, undocumented)
+  detail: authentication/warppay402-com-authentication.yml
+idempotency:
+  supported: false
+  coverage: none
+  mechanism: null
+  scope: []
+  replay_protection: >-
+    Server-side only and payment-scoped: @warppay402/server ships MemoryNonceStore / RedisNonceStore (nonceTtlSeconds,
+    default example 300) so a PAYMENT-SIGNATURE cannot be presented twice, and each challenge carries maxTimeoutSeconds 300.
+    That stops a payment from being double-spent; it does not let a client safely retry an operation and receive the
+    original result — a retried swap or deployment is a second paid swap or deployment.
+  note: No Idempotency-Key header, no idempotent-retry semantics documented. Idempotency pointer deliberately NOT emitted.
+dry_run_mode:
+  supported: false
+  note: >-
+    The API has no test network, sandbox host or dry-run flag; all four settlement networks are mainnets and the
+    contract factories deploy to mainnet. The provider's own sdk-test repository (github.com/Warppay402/sdk-test)
+    documents a client-side DRY_RUN=true / --dry-run switch for its test harness, which skips calls rather than
+    rehearsing them server-side.
+reversibility:
+  status: none
+  grade: none
+  write_surface: 16 POST operations
+  reversible_operations: []
+  irreversible_by_nature:
+  - {operationId: executeAerodromeSwap, reason: on-chain DEX swap; no cancel/undo operation exists and the chain does not reverse}
+  - {operationId: manageAerodromeClamm, reason: on-chain liquidity mint/increase/decrease/collect; each action is its own paid transaction}
+  - {operationId: manageAerodromeVeaero, reason: on-chain lock/vote/claim; a veAERO lock is time-bound by the protocol, not cancellable via this API}
+  - {operationId: deployBaseContract, reason: mainnet contract deployment ($5.00) — permanent}
+  - {operationId: deploySolanaContract, reason: mainnet program/escrow initialization ($5.00) — permanent}
+  - {operationId: deployArcContract, reason: mainnet contract deployment ($5.00) — permanent}
+  - {operationId: bridgeArcCctp, reason: cross-chain USDC burn-and-mint via Circle CCTP — no reversal path}
+  read_or_extract_only:
+  - [scrapeWeb, browserScrape, extractPdf, renderScreenshot, extractJson, getBaseAnalytics, getArcAnalytics, queryArcNetworkOracle, verifySmartContract, getPublicDataFeed, getDataFeed, getAerodromeYields]
+  payment_reversal: >-
+    The per-call USDC micropayment itself is not refundable: the Terms of Service (section 1, "Pay-Per-Use Licensing")
+    condition access on settlement and grant no refund right; nothing in the API, SDK or docs offers a refund, void or
+    cancel operation, and no window is stated.
+  docs: https://www.warppay402.com/terms-of-service
+  note: >-
+    Recorded as none, not na: the API has a real write surface and publishes no reversal path or window for any of it.
+    An agent should treat every POST here as final before it signs the payment.
+pagination:
+  style: none
+  note: No list endpoints; feeds return one document per feedId/filename.
+field_expansion:
+  supported: false
+metadata:
+  supported: false
+request_tracing:
+  request_id_header: null
+  note: Responses carry Cloudflare's cf-ray header only; no application request id. The bazaar extension's info.toolName identifies the tool in the 402 body.
+versioning:
+  scheme: path (/api/v1); MCP ?v=1|?v=2 query
+  header: none
+  detail: lifecycle/warppay402-com-lifecycle.yml
+error_envelope:
+  media_type: application/json
+  rfc9457: false
+  shape: '{ "error": "<message>" } — on 402 extended with x402Version, resource, accepts[], extensions.bazaar'
+  detail: errors/warppay402-com-problem-types.yml
+rate_limits:
+  signal_status: null
+  headers: none documented
+  note: Cloudflare edge rate limiting is stated in the privacy policy and terms; no numbers, no RateLimit-* / Retry-After documented. See rate-limits/warppay402-com-rate-limits.yml.
+payment_protocol:
+  protocol: x402
+  version: 2
+  challenge_header: PAYMENT-REQUIRED (base64url JSON); legacy X-Payment-Required also sent
+  payment_header: PAYMENT-SIGNATURE (client -> server, signed authorization)
+  receipt_header: PAYMENT-RESPONSE (server -> client, settlement)
+  scheme: exact
+  networks:
+  - {caip2: 'eip155:8453', chain: Base, asset: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', asset_name: USDC, signing: EIP-712 TransferWithAuthorization (gasless)}
+  - {caip2: 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp', chain: Solana mainnet-beta, asset: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v, asset_name: SPL USDC}
+  - {caip2: 'eip155:42161', chain: Arbitrum One, asset: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', asset_name: USDC, signing: EIP-712 TransferWithAuthorization}
+  - {caip2: 'eip155:5042', chain: Arc Mainnet, asset: '0x0000000000000000000000000000000000000000', asset_name: native USDC, signing: direct value transfer}
+  amount_units: USDC base units (6 decimals) — "1000" = $0.001
+  challenge_ttl_seconds: 300
+  discovery: extensions.bazaar in the 402 body (schemaVersion 2.0) plus /.well-known/x402-manifest.json and /agent-offers.json
+  merchant_fee_split: '@warppay402/server platformFeeBps (homepage: developers using the Self-Serve Gateway keep 95% of every call fee)'
+mcp_parity:
+  note: The 19 MCP tools bind one-to-one to the 19 REST operations (mcp/warppay402-com-tool-crosswalk.yml); tool inputSchema property names equal the REST body/path parameter names.

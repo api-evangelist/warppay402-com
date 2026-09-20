@@ -64,5 +64,10 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-WarpPay402 Studio is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry) and added to the network as a stub for full-pipeline profiling.
-- https://warppay402.com/
+WarpPay402 Studio operates WarpPay402, a non-custodial x402 monetization gateway and hosted MCP tool suite for autonomous AI agents: nineteen pay-per-use tools (web, browser and PDF extraction, screenshots, schema-driven JSON extraction, Base and Arc analytics, Basescan contract verification, Aerodrome DeFi routes, Base/Solana/Arc contract deployment factories and Circle CCTP bridging) exposed as a REST API (OpenAPI 3.1 at api.warppay402.com/openapi.json), a hosted MCP server (api.warppay402.com/mcp) and an agent card (/.well-known/agent.json). There are no API keys: every call answers HTTP 402 with an x402 v2 challenge and settles in USDC on Base, Solana, Arbitrum One or Arc.
+
+- Website: https://warppay402.com/
+- API host: https://api.warppay402.com (OpenAPI, MCP, llms.txt, x402 and MCP manifests)
+- GitHub: https://github.com/Warppay402 · npm: @warppay402/sdk, @warppay402/server, @warppay402/mcp-client
+
+Profiled by the API Evangelist enrichment pipeline (local-v3) on 2026-09-19 from the surfaces listed in `apis.yml`.

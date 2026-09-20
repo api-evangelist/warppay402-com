@@ -1,0 +1,542 @@
+openapi: 3.1.0
+info:
+  title: WarpPay402 Monetized MCP Tools API
+  description: Ultra-low-cost pay-per-use AI developer tools monetized via x402 micro-payments on Base Mainnet,
+    Solana, Arbitrum One, and Arc Mainnet (USDC).
+  version: 1.0.0
+  x-api-evangelist:
+    refined: '2026-09-19'
+    from: openapi/_original/warppay402-com-openapi.json
+    changes: added servers[] (the host the provider documents as "REST Gateway Base" in @warppay402/sdk and the
+      baseUrl of /.well-known/x402-manifest.json), operationId per operation (named after the @warppay402/sdk client
+      methods where one exists), tags, and x-x402-price-usdc from the provider's own x402 manifest; nothing else
+      altered
+paths:
+  /public_data_feed/{filename}:
+    get:
+      summary: Protected Public Data Feed Files
+      description: Retrieves signed attestation JSON payloads from the public data feed. Costs $0.0001 USDC on Base,
+        Solana, Arbitrum, or Arc.
+      parameters:
+      - name: filename
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response returning requested attestation data.
+        '402':
+          description: Payment Required - x402 USDC micropayment challenge.
+        '404':
+          description: Requested attestation file not found.
+      operationId: getPublicDataFeed
+      tags:
+      - Data Feeds
+      x-x402-price-usdc: '0.0001'
+  /api/v1/feeds/{feedId}:
+    get:
+      summary: Pre-Scraped Intelligence Data Feeds
+      description: Fetches live cached market data (Base Yields, Trending Pairs). Costs $0.001 USDC.
+      parameters:
+      - name: feedId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response returning cached JSON report.
+        '402':
+          description: Payment Required - x402 USDC micropayment challenge.
+        '404':
+          description: Requested feed ID not found or pending initial scrape.
+      operationId: getDataFeed
+      tags:
+      - Data Feeds
+      x-x402-price-usdc: '0.001'
+  /api/v1/tools/web-scraper:
+    post:
+      summary: Web Scraper & Markdown Extractor
+      description: Scrapes any webpage URL into clean markdown for AI agent context ($0.001 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+              required:
+              - url
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: scrapeWeb
+      tags:
+      - Web Intelligence
+      x-x402-price-usdc: '0.001'
+  /api/v1/tools/browser-scraper:
+    post:
+      summary: JavaScript Browser Scraper
+      description: Executes headless Chromium browser via proxy workers ($0.005 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+              required:
+              - url
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: browserScrape
+      tags:
+      - Web Intelligence
+      x-x402-price-usdc: '0.005'
+  /api/v1/tools/base-analytics:
+    post:
+      summary: Base Wallet Analytics
+      description: Fetches ETH balance and transaction count ($0.002 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+              required:
+              - address
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: getBaseAnalytics
+      tags:
+      - Chain Analytics
+      x-x402-price-usdc: '0.002'
+  /api/v1/tools/arc-analytics:
+    post:
+      summary: Arc Mainnet Network Analytics
+      description: Fetches live block height, gas price, and RPC latency from Arc Mainnet ($0.001 USDC).
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: getArcAnalytics
+      tags:
+      - Chain Analytics
+      x-x402-price-usdc: '0.001'
+  /api/v1/tools/arc-network-query:
+    post:
+      summary: Arc Pre-Flight Telemetry Oracle
+      description: 'Pre-flight Arc Mainnet telemetry: RPC latency (ms), gas prices (Gwei), native USDC balance,
+        and account nonce ($0.10 USDC).'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                includeGasTrends:
+                  type: boolean
+                  default: true
+                checkMerchantAccount:
+                  type: boolean
+                  default: true
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required - x402 $0.10 USDC micropayment challenge
+      operationId: queryArcNetworkOracle
+      tags:
+      - Chain Analytics
+      x-x402-price-usdc: '0.10'
+  /api/v1/tools/pdf-extractor:
+    post:
+      summary: PDF Document Extractor
+      description: Downloads and extracts text from public PDF URL ($0.005 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pdfUrl:
+                  type: string
+              required:
+              - pdfUrl
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: extractPdf
+      tags:
+      - Web Intelligence
+      x-x402-price-usdc: '0.005'
+  /api/v1/tools/render-screenshot:
+    post:
+      summary: Full-Page Render & Screenshot
+      description: Captures full-page rendered screenshot image data ($0.01 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+              required:
+              - url
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: renderScreenshot
+      tags:
+      - Web Intelligence
+      x-x402-price-usdc: '0.01'
+  /api/v1/tools/extract-json:
+    post:
+      summary: Structured Data Extractor
+      description: Extracts structured JSON data from web pages ($0.01 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                schema:
+                  type: object
+              required:
+              - url
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: extractJson
+      tags:
+      - Web Intelligence
+      x-x402-price-usdc: '0.01'
+  /api/v1/tools/smart-contract-verifier:
+    post:
+      summary: Base Smart Contract Verifier
+      description: Source code analysis, ABI fetching, and proxy validation ($0.02 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+              required:
+              - address
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: verifySmartContract
+      tags:
+      - Smart Contracts
+      x-x402-price-usdc: '0.02'
+  /api/v1/tools/aerodrome-yields:
+    get:
+      summary: Aerodrome DEX Yield Optimizer
+      description: Fetches top live Aerodrome DEX yield pools, APYs, and TVL on Base Mainnet ($0.003 USDC).
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: getAerodromeYields
+      tags:
+      - DeFi
+      x-x402-price-usdc: '0.003'
+  /api/v1/tools/aerodrome-swap:
+    post:
+      summary: Aerodrome DEX Swap Execution Engine
+      description: Executes token swaps via Aerodrome vAMM/sAMM routes on Base Mainnet ($0.01 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tokenIn:
+                  type: string
+                tokenOut:
+                  type: string
+                amountIn:
+                  type: string
+                decimalsIn:
+                  type: number
+                isStable:
+                  type: boolean
+              required:
+              - tokenIn
+              - tokenOut
+              - amountIn
+              - decimalsIn
+              - isStable
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: executeAerodromeSwap
+      tags:
+      - DeFi
+      x-x402-price-usdc: '0.01'
+  /api/v1/tools/aerodrome-clamm:
+    post:
+      summary: Aerodrome Slipstream CLAMM LP Route
+      description: Allows agents to open, adjust, and rebalance concentrated liquidity ranges ($0.01 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  enum:
+                  - mint
+                  - increaseLiquidity
+                  - decreaseLiquidity
+                  - collect
+                token0:
+                  type: string
+                token1:
+                  type: string
+                tickLower:
+                  type: number
+                tickUpper:
+                  type: number
+                amount0Desired:
+                  type: string
+                amount1Desired:
+                  type: string
+                tokenId:
+                  type: string
+              required:
+              - action
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: manageAerodromeClamm
+      tags:
+      - DeFi
+      x-x402-price-usdc: '0.01'
+  /api/v1/tools/aerodrome-veaero:
+    post:
+      summary: Aerodrome veAERO Lock & Vote Route
+      description: Automates $AERO locking, epoch gauge voting, and bribe reward harvesting ($0.01 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  enum:
+                  - createLock
+                  - increaseAmount
+                  - increaseUnlockTime
+                  - vote
+                  - claimBribes
+                amount:
+                  type: string
+                lockDurationWeeks:
+                  type: number
+                tokenId:
+                  type: string
+                poolVoteAddresses:
+                  type: array
+                  items:
+                    type: string
+              required:
+              - action
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: manageAerodromeVeaero
+      tags:
+      - DeFi
+      x-x402-price-usdc: '0.01'
+  /api/v1/tools/deploy-contract:
+    post:
+      summary: Smart Contract Deployment Factory
+      description: Programmatically deploys custom Escrow, Bounty, or Agent contracts directly to Base Mainnet ($5.00
+        USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contractType:
+                  type: string
+                  enum:
+                  - escrow
+                  - bounty
+                  - subscription
+                  - pendle
+              required:
+              - contractType
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: deployBaseContract
+      tags:
+      - Smart Contracts
+      x-x402-price-usdc: '5.00'
+  /api/v1/tools/deploy-solana-contract:
+    post:
+      summary: Solana Contract Deployment Factory
+      description: Programmatically initializes SPL Escrows, cNFT Badge Issuers, or Raydium Vaults on Solana Mainnet
+        ($5.00 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contractType:
+                  type: string
+                  enum:
+                  - spl_escrow
+                  - cnft_badge
+                  - raydium_vault
+                params:
+                  type: object
+              required:
+              - contractType
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: deploySolanaContract
+      tags:
+      - Smart Contracts
+      x-x402-price-usdc: '5.00'
+  /api/v1/tools/deploy-arc-contract:
+    post:
+      summary: Arc Smart Contract Factory
+      description: Programmatically deploys custom Escrow, Bounty, or Agent smart contracts directly to Arc Mainnet
+        ($5.00 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contractType:
+                  type: string
+                  enum:
+                  - escrow
+                  - bounty
+                  - subscription
+              required:
+              - contractType
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: deployArcContract
+      tags:
+      - Smart Contracts
+      x-x402-price-usdc: '5.00'
+  /api/v1/tools/arc-cctp-bridge:
+    post:
+      summary: Arc Circle CCTP Bridge Engine
+      description: Bridges USDC cross-chain from Arc Mainnet via Circle CCTP ($0.25 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amountUsdc:
+                  type: string
+                destinationChain:
+                  type: string
+                  enum:
+                  - ethereum
+                  - avalanche
+                  - optimism
+                  - arbitrum
+                  - solana
+                  - base
+                recipientAddress:
+                  type: string
+              required:
+              - amountUsdc
+              - destinationChain
+              - recipientAddress
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: bridgeArcCctp
+      tags:
+      - Bridging
+      x-x402-price-usdc: '0.25'
+servers:
+- url: https://api.warppay402.com
+  description: WarpPay402 Gateway (x402-metered; every operation answers 402 until a PAYMENT-SIGNATURE is presented)
+tags:
+- name: Data Feeds
+  description: Attestation files and pre-scraped intelligence feeds
+- name: Web Intelligence
+  description: Web, browser, PDF and screenshot extraction
+- name: Chain Analytics
+  description: Base and Arc network / wallet telemetry
+- name: Smart Contracts
+  description: Contract verification and deployment factories
+- name: DeFi
+  description: Aerodrome yields, swaps, concentrated liquidity and veAERO
+- name: Bridging
+  description: Circle CCTP cross-chain USDC transfer

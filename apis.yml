@@ -1,18 +1,130 @@
 aid: warppay402-com
 name: WarpPay402 Studio
-description: 'WarpPay402 Studio is a company surfaced via the API Evangelist harvest backlog (source:
-  a2a-registry) and added to the network as a stub for full-pipeline profiling.'
+description: 'WarpPay402 Studio operates WarpPay402, a non-custodial x402 monetization gateway and hosted MCP tool
+  suite for autonomous AI agents. Nineteen pay-per-use tools — Markdown and headless-browser web scraping, PDF text
+  extraction, full-page screenshots, schema-driven JSON extraction, Base and Arc network analytics, Basescan contract
+  verification, Aerodrome yield, swap, concentrated-liquidity and veAERO routes, contract deployment factories for
+  Base, Solana and Arc, and Circle CCTP bridging — are exposed three ways from one host: a REST API described by
+  an OpenAPI 3.1 document at api.warppay402.com/openapi.json, a hosted MCP server at api.warppay402.com/mcp (Streamable
+  HTTP and legacy SSE, 19 tools listed anonymously), and an agent card at /.well-known/agent.json. There are no
+  API keys: every call answers HTTP 402 with an x402 v2 PAYMENT-REQUIRED challenge and settles in USDC on Base,
+  Solana, Arbitrum One or Arc (prices from $0.0001 to $5.00 per call), with flat-rate access tokens offered by email.
+  The company also publishes @warppay402/server, the x402 middleware its Self-Serve Gateway is built on, so other
+  developers can wrap their own APIs and MCP tools in the same 402 challenge, and @warppay402/sdk plus a stdio MCP
+  bridge for Cursor, Windsurf and Claude Desktop. The site is a Google Sites page; all documentation lives on it
+  and in the npm READMEs.'
 url: https://raw.githubusercontent.com/api-evangelist/warppay402-com/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:a2a-registry
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment pipeline local-v3 pass on 2026-09-19 found a live OpenAPI 3.1, hosted MCP server (tools/list
+  probed), A2A agent card, llms.txt, x402 and MCP well-known manifests and three npm packages
 specificationVersion: '0.20'
 created: '2026-09-19'
 modified: '2026-09-19'
 tags:
-- Company
-apis: []
+- x402
+- Micropayments
+- AI Agents
+- MCP
+- A2A
+- agent-native
+- Web Scraping
+- Data Extraction
+- Blockchain
+- DeFi
+- Base
+- Solana
+- Smart Contracts
+- Data Feeds
+- Developer Tools
+apis:
+- name: WarpPay402 Monetized MCP Tools API
+  description: 'REST surface of the WarpPay402 gateway at https://api.warppay402.com: 19 operations (2 GET feeds,
+    1 GET yield read, 16 POST tools) covering web, browser, PDF and screenshot extraction, structured JSON extraction,
+    Base/Arc analytics, Basescan contract verification, Aerodrome DeFi routes, Base/Solana/Arc contract deployment
+    and CCTP bridging. Described by an OpenAPI 3.1.0 document the provider serves at /openapi.json (no securitySchemes,
+    no component schemas, no operationIds in the original). Every operation is metered by the x402 protocol: an
+    unpaid request returns HTTP 402 with a PAYMENT-REQUIRED header and JSON body listing accepted networks (eip155:8453,
+    solana mainnet, eip155:42161, eip155:5042), asset, amount and payTo; the client signs and retries with PAYMENT-SIGNATURE.
+    Prices are published machine-readably at /.well-known/x402-manifest.json and /agent-offers.json.'
+  humanURL: https://www.warppay402.com/
+  baseURL: https://api.warppay402.com
+  tags:
+  - x402
+  - Web Scraping
+  - Data Extraction
+  - DeFi
+  - Smart Contracts
+  - Data Feeds
+  tags_raw:
+  - x402
+  - web-scraping
+  - data-extraction
+  - defi
+  - smart-contracts
+  - data-feeds
+  properties:
+  - type: OpenAPI
+    url: openapi/warppay402-com-openapi.yml
+  - type: OpenAPI
+    url: https://api.warppay402.com/openapi.json
+    name: provider-hosted original
+  - type: Documentation
+    url: https://www.warppay402.com/
+  - type: Overlay
+    url: overlays/warppay402-com-openapi-overlay.yaml
+  - type: Authentication
+    url: authentication/warppay402-com-authentication.yml
+  - type: Conventions
+    url: conventions/warppay402-com-conventions.yml
+  - type: ErrorCatalog
+    url: errors/warppay402-com-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/warppay402-com-rate-limits.yml
+  - type: Plans
+    url: plans/warppay402-com-plans-pricing.yml
+  - type: Pricing
+    url: https://api.warppay402.com/.well-known/x402-manifest.json
+    name: machine-readable per-call prices
+  - type: SDK
+    url: https://www.npmjs.com/package/@warppay402/sdk
+  - type: SourceCode
+    url: https://github.com/Warppay402/warppay402-sdk
+- name: WarpPay402 MCP Server
+  description: Hosted MCP server at https://api.warppay402.com/mcp exposing the same 19 tools as the REST API (public_data_feed,
+    data_feeds, web_scraper, browser_scraper, base_analytics, arc_analytics, arc_network_oracle_query, pdf_extractor,
+    render_screenshot, extract_json, smart_contract_verifier, get_aerodrome_yields, aerodrome_swap, aerodrome_clamm,
+    aerodrome_veaero, deploy_contract, deploy_solana_contract, deploy_arc_contract, arc_cctp_bridge). Answers Streamable-HTTP
+    JSON-RPC directly and the legacy HTTP+SSE transport; initialize reports protocolVersion 2024-11-05, serverInfo
+    "WarpPay402 Backend" 1.0.0; resources and prompts are empty. tools/list is anonymous; calls are settled per
+    invocation by x402 USDC micropayment, which the provider's @warppay402/mcp-client stdio bridge signs from a
+    CUSTOMER_PRIVATE_KEY for Cursor, Windsurf and Claude Desktop. Discovery manifest at /.well-known/mcp.json.
+  humanURL: https://www.warppay402.com/
+  baseURL: https://api.warppay402.com/mcp
+  tags:
+  - MCP
+  - agent-native
+  - AI Agents
+  - x402
+  tags_raw:
+  - mcp
+  - agent-native
+  - ai-agents
+  - x402
+  properties:
+  - type: MCPServer
+    url: mcp/warppay402-com-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/warppay402-com-tool-crosswalk.yml
+  - type: MCPServerOverview
+    url: https://api.warppay402.com/.well-known/mcp.json
+    name: provider /.well-known/mcp.json discovery manifest
+  - type: SDK
+    url: https://www.npmjs.com/package/@warppay402/mcp-client
+    name: stdio bridge
+  - type: SourceCode
+    url: https://github.com/golfgolfgolf200/warppay402-mcp-tools
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -21,3 +133,69 @@ maintainers:
 common:
 - type: Website
   url: https://warppay402.com/
+- type: GitHubOrganization
+  url: https://github.com/Warppay402
+- type: TermsOfService
+  url: https://www.warppay402.com/terms-of-service
+- type: PrivacyPolicy
+  url: https://www.warppay402.com/privacy-policy
+- type: LLMsTxt
+  url: llms/warppay402-com-llms.txt
+- type: LLMsTxt
+  url: https://api.warppay402.com/llms.txt
+  name: provider-hosted
+- type: AgentCard
+  url: a2a/warppay402-com-a2a.yml
+- type: WellKnown
+  url: well-known/warppay402-com-well-known.yml
+- type: Packages
+  url: packages/warppay402-com-packages.yml
+- type: SDKs
+  url: packages/warppay402-com-packages.yml
+- type: Conformance
+  url: conformance/warppay402-com-conformance.yml
+- type: Authentication
+  url: authentication/warppay402-com-authentication.yml
+- type: Conventions
+  url: conventions/warppay402-com-conventions.yml
+- type: ErrorCatalog
+  url: errors/warppay402-com-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/warppay402-com-lifecycle.yml
+- type: DomainSecurity
+  url: security/warppay402-com-domain-security.yml
+- type: Plans
+  url: plans/warppay402-com-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/warppay402-com-rate-limits.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: AgenticAccess
+  url: agentic-access/warppay402-com-agentic-access.yml
+- type: RegulatoryPosture
+  url: regulatory/warppay402-com-regulatory-posture.yml
+image: https://raw.githubusercontent.com/golfgolfgolf200/warppay-mcp-skill/master/warppay-real-logo.png
+x-product-name: WarpPay402
+x-api-host: api.warppay402.com
+x-website-platform: Google Sites (www.warppay402.com), Cloudflare-fronted
+tags_raw:
+- x402
+- micropayments
+- ai-agents
+- mcp
+- a2a
+- agent-native
+- web-scraping
+- data-extraction
+- blockchain
+- defi
+- base
+- solana
+- smart-contracts
+- data-feeds
+- developer-tools
+x-enrichment:
+  date: '2026-09-19'
+  status: enriched
+  artifacts_added: 31
+  pass: local-v3

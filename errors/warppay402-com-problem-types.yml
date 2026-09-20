@@ -1,0 +1,60 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  openapi/warppay402-com-openapi.yml response declarations (every operation: 200, 402; the two GET feeds also 404) plus
+  live unauthenticated responses observed 2026-09-19 on https://api.warppay402.com. No error reference page exists.
+format: custom-json
+rfc9457: false
+envelope:
+  media_type: application/json
+  shape: '{ "error": "<human-readable message>", ...payment challenge fields on 402 }'
+  note: >-
+    The gateway's 402 sets Content-Type "application/json, application/json" (duplicated value) and exposes
+    PAYMENT-REQUIRED / PAYMENT-RESPONSE via Access-Control-Expose-Headers. Unknown routes return text/plain "404 Not Found"
+    (13 bytes), not JSON. The 200 responses are described only as "Success" in the spec, with no schema.
+problem_types:
+- status: 402
+  title: Payment Required
+  code: payment_required
+  media_type: application/json
+  applies_to: every operation (19/19 declare it)
+  body_fields:
+    error: '"Payment required"'
+    x402Version: 2
+    resource: '{ url, description ("Monetized API Access"), mimeType }'
+    accepts: 'array of { scheme: "exact", network (CAIP-2), asset, amount (USDC base units, 6 decimals — "1000" = $0.001), maxTimeoutSeconds: 300, payTo }'
+    extensions.bazaar: '{ schemaVersion "2.0", url, schema (JSON Schema 2020-12 of the expected input), info { toolName, name, description, input { type http, method, url, bodyType json, body example }, output { type json, example } } }'
+  headers:
+    PAYMENT-REQUIRED: base64url JSON copy of the challenge (x402 v2)
+    X-Payment-Required: base64 JSON copy including the error field (legacy/duplicate header)
+    X-Guard-Inspected: 'true — the "x402-guard" pre-flight middleware ran'
+    Access-Control-Expose-Headers: PAYMENT-REQUIRED, PAYMENT-RESPONSE
+  remediation: >-
+    Pick one accepts[] entry, sign a transfer of `amount` of `asset` to `payTo` on `network` (EIP-712 TransferWithAuthorization
+    on Base/Arbitrum, SPL transfer on Solana, native USDC on Arc), and retry the identical request with the signed payload in
+    PAYMENT-SIGNATURE within maxTimeoutSeconds. The @warppay402/sdk WarpPayClient and the @warppay402/mcp-client bridge do this
+    automatically from a configured wallet key. The successful retry carries PAYMENT-RESPONSE with the settlement.
+  observed:
+  - {url: 'https://api.warppay402.com/api/v1/tools/web-scraper', method: POST, status: 402, amount: '1000'}
+  - {url: 'https://api.warppay402.com/api/v1/feeds/base-yields', method: GET, status: 402, amount: '1000'}
+  - {url: 'https://api.warppay402.com/public_data_feed/index.json', method: GET, status: 402, amount: '1000', note: 'the manifest prices this tool at $0.0001 but the live challenge asked 1000 base units ($0.001)'}
+- status: 404
+  title: Not Found
+  code: not_found
+  media_type: text/plain
+  applies_to: >-
+    Declared on GET /public_data_feed/{filename} and GET /api/v1/feeds/{feedId} ("File not found"); observed for any
+    unknown route (/docs, /swagger.json, /.well-known/oauth-protected-resource, /api/v1/paymaster/quote).
+  body: '404 Not Found'
+  remediation: Check the filename / feedId against the provider's published feeds; unknown gateway routes 404 rather than redirect.
+- status: 200
+  title: Success (tool-level failure inside a 200)
+  code: null
+  note: >-
+    The spec documents no 4xx other than 402/404 and no 5xx. Tool-level failures (unreachable target URL, invalid address,
+    on-chain revert) are not described; the SDK README shows errors surfacing as thrown "x402 Execution Error". An
+    unauthenticated MCP tools/call returned a 200 JSON-RPC result of {} rather than a JSON-RPC error.
+undocumented:
+- 400 (validation of requestBody — the spec marks required fields but declares no 400)
+- 429 (Terms of Service and Privacy Policy mention Cloudflare-enforced rate limits; no status or headers documented)
+- 5xx (Terms disclaim upstream outages — Basescan, Chainlink, DexScreener — but no error shape is given)

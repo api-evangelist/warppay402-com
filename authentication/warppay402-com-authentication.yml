@@ -1,0 +1,73 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  https://www.warppay402.com/ ("No API Keys or Token Management Needed ... they simply send a raw crypto micro-transaction
+  ($0.01–$0.35 USDC) on Base or Solana directly inside the request header. ... Access to our endpoints can also be gained
+  through traditional API access tokens. Reach out to us ... if interested in a flat rate per month."), the
+  @warppay402/server README (x402 V2 headers PAYMENT-REQUIRED / PAYMENT-SIGNATURE / PAYMENT-RESPONSE, EIP-712 gasless
+  TransferWithAuthorization, SPL-USDC, native USDC on Arc), the @warppay402/sdk and @warppay402/mcp-client READMEs
+  (CUSTOMER_PRIVATE_KEY / WALLETPK), and live 402 responses on https://api.warppay402.com observed 2026-09-19.
+  derive-authentication.py produced nothing because the provider's OpenAPI declares no securitySchemes.
+docs: https://www.warppay402.com/
+description: >-
+  WarpPay402 replaces credentials with payment. There is no signup, no API key and no OAuth: an unpaid request to any
+  operation receives HTTP 402 with an x402 v2 challenge, the client signs a USDC transfer for the quoted amount on one of
+  four networks and retries with the signature in a PAYMENT-SIGNATURE header, and the gateway verifies settlement
+  (splitting a platform fee) before proxying the request. The MCP server's discovery methods (initialize, tools/list,
+  resources/list, prompts/list) are fully anonymous; tool calls are settled the same way through the stdio bridge. A
+  flat-rate monthly access token is offered by email but is undocumented, so it is recorded as a claim, not a scheme.
+schemes:
+- name: x402Payment
+  type: x402
+  kind: payment-challenge
+  in: header
+  request_header: PAYMENT-SIGNATURE
+  challenge_header: PAYMENT-REQUIRED
+  receipt_header: PAYMENT-RESPONSE
+  challenge_status: 402
+  version: 2
+  scheme: exact
+  applies_to: all 19 REST operations and all 19 MCP tools
+  networks:
+  - {caip2: 'eip155:8453', chain: Base, asset: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', asset_name: USDC, authorization: EIP-712 TransferWithAuthorization (gasless)}
+  - {caip2: 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp', chain: Solana mainnet-beta, asset: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v, asset_name: SPL USDC, authorization: signed SPL transfer}
+  - {caip2: 'eip155:42161', chain: Arbitrum One, asset: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', asset_name: USDC, authorization: EIP-712 TransferWithAuthorization}
+  - {caip2: 'eip155:5042', chain: Arc Mainnet, asset: '0x0000000000000000000000000000000000000000', asset_name: native USDC, authorization: direct native value transfer}
+  challenge_ttl_seconds: 300
+  amount_units: USDC base units, 6 decimals
+  client_secret_material: >-
+    A wallet private key held by the caller (env CUSTOMER_PRIVATE_KEY, alias WALLETPK; CUSTOMER_SOLANA_KEY for Solana in
+    the SDK). It signs locally and is never transmitted; the privacy policy states the provider "never ask[s] for or
+    store[s] private keys or seed phrases".
+  replay_protection: server-side nonce store rejects a reused signature (MemoryNonceStore / RedisNonceStore in @warppay402/server)
+  evidence:
+  - {url: 'https://api.warppay402.com/api/v1/tools/web-scraper', method: POST, status: 402, headers: ['payment-required', 'x-payment-required', 'access-control-expose-headers: PAYMENT-REQUIRED, PAYMENT-RESPONSE', 'x-guard-inspected: true']}
+  - {url: 'https://api.warppay402.com/api/v1/feeds/base-yields', method: GET, status: 402}
+  - {url: 'https://api.warppay402.com/public_data_feed/index.json', method: GET, status: 402}
+- name: flatRateAccessToken
+  type: apiKey
+  kind: claimed-undocumented
+  in: unknown
+  status: offered by email only
+  note: >-
+    Homepage: "Access to our endpoints can also be gained through traditional API access tokens. Reach out to us at
+    [obfuscated email] if interested in a flat rate per month." Header name, format and issuance are not published and
+    the OpenAPI declares no scheme, so no agent can use this without a human negotiation.
+anonymous_surfaces:
+- {url: 'https://api.warppay402.com/mcp', methods: [initialize, tools/list, resources/list, prompts/list], status: 200}
+- {url: 'https://api.warppay402.com/openapi.json', status: 200}
+- {url: 'https://api.warppay402.com/.well-known/agent.json', status: 200}
+- {url: 'https://api.warppay402.com/.well-known/mcp.json', status: 200}
+- {url: 'https://api.warppay402.com/.well-known/x402-manifest.json', status: 200}
+- {url: 'https://api.warppay402.com/agent-offers.json', status: 200}
+- {url: 'https://api.warppay402.com/llms.txt', status: 200}
+- {url: 'https://api.warppay402.com/health', status: 200}
+oauth2: false
+oidc: false
+delegated_identity: false
+dynamic_client_registration: false
+protected_resource_metadata: false
+mcp_auth:
+  discovery: none (anonymous)
+  invocation: x402 payment signed by the @warppay402/mcp-client bridge from CUSTOMER_PRIVATE_KEY; an unauthenticated tools/call from this crawler returned a JSON-RPC 200 with an empty result object
+  local_bridge: npx -y @warppay402/mcp-client

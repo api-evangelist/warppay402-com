@@ -1,0 +1,44 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+source: https://www.warppay402.com/privacy-policy
+probed:
+- {url: 'https://www.warppay402.com/privacy-policy', status: 200, note: 'Last Updated: August 27, 2026'}
+- {url: 'https://www.warppay402.com/terms-of-service', status: 200, note: 'Last Updated: August 27, 2026'}
+- {url: 'https://www.warppay402.com/system-heath', status: 200, note: heading only, no content}
+- {url: 'https://www.warppay402.com/accessibility', status: 404}
+- {url: 'https://www.warppay402.com/legal/subprocessors', status: 404}
+- {url: 'https://www.warppay402.com/legal/dpa', status: 404}
+- {url: 'https://www.warppay402.com/privacy/requests', status: 404}
+- {url: 'https://www.warppay402.com/transparency', status: 404}
+- {url: 'https://www.warppay402.com/security/sbom', status: 404}
+- {url: 'https://www.warppay402.com/security', status: 404}
+- {url: 'https://api.warppay402.com/docs/data-residency', status: 404}
+- {url: 'https://api.warppay402.com/.well-known/security.txt', status: 404}
+- {url: 'https://www.warppay402.com/.well-known/security.txt', status: 404}
+- {url: 'https://api.warppay402.com/robots.txt', status: 200, note: 'User-agent: * Allow: / plus a sitemap of the six machine manifests'}
+signals: {}
+observations_not_scored:
+- topic: data_subject_request
+  detail: >-
+    The privacy policy states no PII is collected ("We do not collect names, physical addresses, personal email accounts,
+    credit card numbers, or tracking cookies"), so it names no data-subject rights and no request channel beyond a
+    general "Contact Us" email (Cloudflare-obfuscated in the HTML). No rights list, no SLA — nothing to record.
+- topic: subprocessors
+  detail: >-
+    Privacy section 3 names categories only ("external public endpoints", Basescan) and section 4 names Cloudflare as
+    the edge proxy. Upstream data sources named in the Terms (Basescan, Chainlink, DexScreener). No dated subprocessor
+    table or DPA — absent.
+- topic: data_residency
+  detail: Nothing published; the gateway is Cloudflare-fronted and the server library targets Cloudflare Workers / Vercel Edge, but no residency commitment is made.
+- topic: retention
+  detail: Privacy section 2 says inputs are processed "strictly in real-time" and some feeds/attestations are "cached temporarily"; no retention period is stated.
+- topic: ai_transparency / training_data_summary
+  detail: The tools produce LLM-ready text but the provider trains no model and says nothing about training; absent.
+- topic: age_assurance / notice_and_action / transparency_report / exit_assistance / accessibility_conformance / sbom / support_lifetime / incident_notification / global_privacy_control
+  detail: Nothing published; conventional paths 404 as listed above. The site is a four-page Google Sites property.
+- topic: financial / crypto regime hints (not decided here)
+  detail: >-
+    The Terms describe a "non-custodial" gateway settling USDC on public chains with the user's own wallet key, and the
+    Privacy Policy says private keys are never stored. Whether payments or VASP regimes reach a non-custodial x402
+    merchant is a regime-map decision, not an artifact finding; noted for the industry_regulatory pass.

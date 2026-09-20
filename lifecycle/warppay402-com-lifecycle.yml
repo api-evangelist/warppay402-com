@@ -1,0 +1,46 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  https://www.warppay402.com/ (homepage + "System Heath" page), https://www.warppay402.com/terms-of-service (Last Updated
+  August 27, 2026), openapi/warppay402-com-openapi.yml (info.version 1.0.0, /api/v1 paths), the MCP endpoint (?v=1 / ?v=2),
+  npm release history for @warppay402/sdk, @warppay402/server and @warppay402/mcp-client, and live probes of
+  https://api.warppay402.com/health and / on 2026-09-19.
+versioning:
+  scheme: path-prefixed major (/api/v1/...) for the REST tools; two feed routes are unversioned (/public_data_feed/{filename}); the MCP endpoint takes an optional ?v=1 | ?v=2 query that currently serves an identical tool set
+  current: v1 (OpenAPI info.version 1.0.0; MCP serverInfo.version 1.0.0; agent card version 1.0.0)
+  policy_published: false
+  note: No versioning or backwards-compatibility policy is written down anywhere; the version string is the only signal.
+deprecation:
+  policy_published: false
+  headers: none observed (no Deprecation / Sunset / Link rel=deprecation on any response)
+  deprecated_operations: []
+  note: The OpenAPI marks nothing deprecated. The homepage prices (e.g. web scraper $0.01) lag the machine-readable manifest ($0.001) and the 402 amount, which suggests a repricing without a changelog rather than a deprecation.
+status:
+  status_page: null
+  system_health_page:
+    url: https://www.warppay402.com/system-heath
+    http_status: 200
+    substantive: false
+    note: >-
+      The site nav has a "System Heath" page, but the served page contains only the heading "Warppay402 System Health" and
+      the footer — no embedded status widget, iframe, incident list or uptime figures (checked the HTML for iframes and
+      status-provider URLs). Not wired as a StatusPage pointer because it carries no status.
+  health_endpoint:
+    url: https://api.warppay402.com/health
+    http_status: 200
+    body: '{"status":"healthy"}'
+    root: '{"status":"ok","service":"WarpPay402 Gateway"} at https://api.warppay402.com/'
+sla:
+  published: false
+  note: Terms of Service section 3 provides the Services "AS IS" and "AS AVAILABLE" and disclaims liability for upstream outages (Basescan, Chainlink, DexScreener) and on-chain congestion; no uptime commitment.
+release_history:
+  changelog_published: false
+  signals:
+  - '@warppay402/sdk: 16 releases 2026-08-19 -> 2026-09-19 (1.1.11)'
+  - '@warppay402/server: 17 releases 2026-08-19 -> 2026-09-16 (1.2.8)'
+  - '@warppay402/mcp-client: 2 releases 2026-08-29 (1.0.2)'
+  - 'Terms of Service and Privacy Policy: Last Updated August 27, 2026'
+  - 'Arc Mainnet (eip155:5042) and Arbitrum One tools/networks appear in the live manifests but not in the older SKILL.md / OpenClaw plugin README, which list Base + Solana only — the surface grew during September 2026.'
+support:
+  channel: email warppay402@gmail.com (privacy policy) / warppay.402@gmail.com (homepage, for flat-rate access) — both Cloudflare-obfuscated in the HTML
+  github: https://github.com/Warppay402

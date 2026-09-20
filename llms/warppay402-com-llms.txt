@@ -1,0 +1,15 @@
+# WarpPay402 MCP Gateway
+> Pay-per-use AI tools monetized via x402 USDC micropayments on Base Mainnet (EIP-155:8453), Arbitrum One (EIP-155:42161), Solana Mainnet (SPL USDC), and Arc Mainnet (EIP-155:5042).
+
+## Supported Payment Networks
+- **Base Mainnet:** USDC (0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+- **Arbitrum One:** USDC (0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
+- **Solana Mainnet:** SPL USDC (EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v)
+- **Arc Mainnet:** Native USDC (0x0000000000000000000000000000000000000000)
+
+## Discovery Manifests
+- [MCP Manifest](https://api.warppay402.com/.well-known/mcp.json)
+- [x402 Agent Manifest](https://api.warppay402.com/.well-known/x402-manifest.json)
+- [Agent Offers Catalog](https://api.warppay402.com/agent-offers.json)
+- [OpenAPI Spec](https://api.warppay402.com/openapi.json)
+- [Agent Card](https://api.warppay402.com/.well-known/agent.json)

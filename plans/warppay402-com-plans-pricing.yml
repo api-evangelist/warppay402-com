@@ -1,0 +1,272 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: WarpPay402 Studio
+providerId: warppay402-com
+created: '2026-09-19'
+modified: '2026-09-19'
+generated: '2026-09-19'
+method: probed
+source: https://api.warppay402.com/.well-known/x402-manifest.json (machine-readable, fetched 2026-09-19); cross-checked against
+  https://api.warppay402.com/agent-offers.json, the MCP tools/list descriptions, the live 402 amount on three operations,
+  and the homepage https://www.warppay402.com/
+sources:
+- https://api.warppay402.com/.well-known/x402-manifest.json
+- https://api.warppay402.com/agent-offers.json
+- https://www.warppay402.com/
+tags:
+- x402
+- Micropayments
+- Pay-per-use
+- USDC
+description: 'WarpPay402 has no tiers, subscriptions or free quota: every call is priced individually in USDC and paid in-band
+  through an x402 challenge (no account, no key). Prices run from $0.0001 (attestation feed) to $5.00 (contract deployment
+  factories). The homepage also offers "traditional API access tokens ... at a flat rate per month" on request by email, with
+  no published price. Note the discrepancy recorded per entry: the homepage quotes prices roughly 10x higher than the served
+  manifest for eight tools; the live 402 challenges match the manifest (1000 base units = $0.001 for web-scraper and the feeds),
+  so the manifest is treated as current.'
+plan_count: 1
+plans:
+- id: warppay402-pay-per-call
+  name: Pay-per-call (x402)
+  type: usage-based
+  price: per call, see entries
+  currency: USDC
+  billing_period: per request, settled on-chain before the response
+  included_quota: none
+  overage: not applicable
+  free_tier: false
+  signup_required: false
+  settlement_networks:
+  - eip155:8453 Base (USDC 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+  - solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp (SPL USDC EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v)
+  - eip155:42161 Arbitrum One (USDC 0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
+  - eip155:5042 Arc (native USDC)
+  limits: undocumented (Cloudflare edge rate limiting only) — see rate-limits/
+  entries:
+  - label: Public attestation data feed JSON records
+    name: filename
+    type: metered
+    metric: call
+    method: GET
+    path: /public_data_feed/{filename}
+    unit: 1
+    price: 0.0001 USDC
+    currency: USDC
+    price_usd: 0.0001
+  - label: Pre-scraped AI market data feeds and yield reports
+    name: feedId
+    type: metered
+    metric: call
+    method: GET
+    path: /api/v1/feeds/{feedId}
+    unit: 1
+    price: 0.001 USDC
+    currency: USDC
+    price_usd: 0.001
+    homepage_price: 0.05 USDC
+    note: Homepage marketing copy (and the older SKILL.md / SDK README) still states the higher price; the machine-readable
+      manifest, agent-offers.json and MCP tool descriptions agree on the lower one.
+  - label: Scrapes web pages into clean Markdown for AI context
+    name: web-scraper
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/web-scraper
+    unit: 1
+    price: 0.001 USDC
+    currency: USDC
+    price_usd: 0.001
+    homepage_price: 0.01 USDC
+    note: Homepage marketing copy (and the older SKILL.md / SDK README) still states the higher price; the machine-readable
+      manifest, agent-offers.json and MCP tool descriptions agree on the lower one.
+  - label: Unblockable JS-rendering browser scraper via proxy workers
+    name: browser-scraper
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/browser-scraper
+    unit: 1
+    price: 0.005 USDC
+    currency: USDC
+    price_usd: 0.005
+    homepage_price: 0.05 USDC
+    note: Homepage marketing copy (and the older SKILL.md / SDK README) still states the higher price; the machine-readable
+      manifest, agent-offers.json and MCP tool descriptions agree on the lower one.
+  - label: Fetches Base 0x wallet balance and nonce stats
+    name: base-analytics
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/base-analytics
+    unit: 1
+    price: 0.002 USDC
+    currency: USDC
+    price_usd: 0.002
+    homepage_price: 0.02 USDC
+    note: Homepage marketing copy (and the older SKILL.md / SDK README) still states the higher price; the machine-readable
+      manifest, agent-offers.json and MCP tool descriptions agree on the lower one.
+  - label: Fetches Arc Mainnet block height, gas fees, and RPC metrics
+    name: arc-analytics
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/arc-analytics
+    unit: 1
+    price: 0.001 USDC
+    currency: USDC
+    price_usd: 0.001
+  - label: 'Pre-flight Arc Mainnet telemetry: RPC latency (ms), gas prices (Gwei), native USDC balance, and account nonce'
+    name: arc-network-query
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/arc-network-query
+    unit: 1
+    price: 0.10 USDC
+    currency: USDC
+    price_usd: 0.1
+  - label: Extracts plain text preview from public PDF URLs
+    name: pdf-extractor
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/pdf-extractor
+    unit: 1
+    price: 0.005 USDC
+    currency: USDC
+    price_usd: 0.005
+    homepage_price: 0.05 USDC
+    note: Homepage marketing copy (and the older SKILL.md / SDK README) still states the higher price; the machine-readable
+      manifest, agent-offers.json and MCP tool descriptions agree on the lower one.
+  - label: Captures full-page rendered screenshot image data
+    name: render-screenshot
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/render-screenshot
+    unit: 1
+    price: 0.01 USDC
+    currency: USDC
+    price_usd: 0.01
+    homepage_price: 0.10 USDC
+    note: Homepage marketing copy (and the older SKILL.md / SDK README) still states the higher price; the machine-readable
+      manifest, agent-offers.json and MCP tool descriptions agree on the lower one.
+  - label: Extracts structured JSON data from web pages
+    name: extract-json
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/extract-json
+    unit: 1
+    price: 0.01 USDC
+    currency: USDC
+    price_usd: 0.01
+    homepage_price: 0.15 USDC
+    note: Homepage marketing copy (and the older SKILL.md / SDK README) still states the higher price; the machine-readable
+      manifest, agent-offers.json and MCP tool descriptions agree on the lower one.
+  - label: Source code analysis, ABI fetching, and proxy validation on Basescan
+    name: smart-contract-verifier
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/smart-contract-verifier
+    unit: 1
+    price: 0.02 USDC
+    currency: USDC
+    price_usd: 0.02
+    homepage_price: 0.35 USDC
+    note: Homepage marketing copy (and the older SKILL.md / SDK README) still states the higher price; the machine-readable
+      manifest, agent-offers.json and MCP tool descriptions agree on the lower one.
+  - label: Fetches top live Aerodrome DEX yield pools, APYs, and TVL on Base Mainnet
+    name: aerodrome-yields
+    type: metered
+    metric: call
+    method: GET
+    path: /api/v1/tools/aerodrome-yields
+    unit: 1
+    price: 0.003 USDC
+    currency: USDC
+    price_usd: 0.003
+  - label: Executes programmatic token swaps on Aerodrome Base
+    name: aerodrome-swap
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/aerodrome-swap
+    unit: 1
+    price: 0.01 USDC
+    currency: USDC
+    price_usd: 0.01
+  - label: Concentrated liquidity range management on Aerodrome Slipstream
+    name: aerodrome-clamm
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/aerodrome-clamm
+    unit: 1
+    price: 0.01 USDC
+    currency: USDC
+    price_usd: 0.01
+  - label: $AERO locking, epoch gauge voting, and bribe reward harvesting
+    name: aerodrome-veaero
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/aerodrome-veaero
+    unit: 1
+    price: 0.01 USDC
+    currency: USDC
+    price_usd: 0.01
+  - label: Deploys custom Escrow, Bounty, or Agent contracts to Base Mainnet
+    name: deploy-contract
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/deploy-contract
+    unit: 1
+    price: 5.00 USDC
+    currency: USDC
+    price_usd: 5.0
+  - label: Initializes SPL Escrows, cNFT Badge Issuers, or Raydium Vaults on Solana
+    name: deploy-solana-contract
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/deploy-solana-contract
+    unit: 1
+    price: 5.00 USDC
+    currency: USDC
+    price_usd: 5.0
+  - label: Deploys custom Escrow, Bounty, or Agent contracts directly to Arc Mainnet
+    name: deploy-arc-contract
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/deploy-arc-contract
+    unit: 1
+    price: 5.00 USDC
+    currency: USDC
+    price_usd: 5.0
+  - label: Bridges USDC cross-chain from Arc Mainnet via Circle CCTP V2
+    name: arc-cctp-bridge
+    type: metered
+    metric: call
+    method: POST
+    path: /api/v1/tools/arc-cctp-bridge
+    unit: 1
+    price: 0.25 USDC
+    currency: USDC
+    price_usd: 0.25
+- id: warppay402-flat-rate
+  name: Flat-rate monthly access token
+  type: contact
+  price: null
+  currency: USD
+  billing_period: month
+  included_quota: null
+  note: 'Homepage: "Access to our endpoints can also be gained through traditional API access tokens. Reach out to us ...
+    if interested in a flat rate per month." No price, quota or terms published; not documented in the OpenAPI.'
+self_serve_gateway:
+  note: For developers monetizing their own APIs through the WarpPay402 Self-Serve Gateway the homepage states a 95% payout
+    of every call fee (a 5% platform fee), paid in USDC to the developer wallet; @warppay402/server exposes this as platformFeeBps.

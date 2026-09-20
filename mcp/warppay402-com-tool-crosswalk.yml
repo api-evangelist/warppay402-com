@@ -1,0 +1,189 @@
+generated: '2026-09-19'
+method: derived
+source: mcp/warppay402-com-tools-list.json (live tools/list 2026-09-19), mcp/warppay402-com-mcp-manifest.json (per-tool endpoint),
+  openapi/warppay402-com-openapi.yml
+description: 'Binding of every WarpPay402 MCP tool to the OpenAPI operation that backs it. The provider publishes the mapping
+  itself: /.well-known/mcp.json lists the REST endpoint for each tool, and the live tools/list inputSchema property names
+  match the OpenAPI requestBody properties (or path parameter) of that endpoint one-for-one. The A2A agent card''s 19 skills
+  use the same ids in kebab-case.'
+surfaces:
+  openapi:
+    file: openapi/warppay402-com-openapi.yml
+    url: https://api.warppay402.com/openapi.json
+    operations: 19
+    gated: x402 payment per call (HTTP 402 challenge, anonymous otherwise)
+  mcp:
+    url: https://api.warppay402.com/mcp
+    tools: 19
+    gated: tools/list anonymous; tools/call settled by x402 through the @warppay402/mcp-client bridge
+  graphql: null
+  a2a_card:
+    url: https://api.warppay402.com/.well-known/agent.json
+    skills: 19
+    note: discovery manifest only; no A2A JSON-RPC endpoint
+crosswalk:
+- tool: public_data_feed
+  category: Data Feeds
+  rest:
+  - getPublicDataFeed
+  binding: GET /public_data_feed/{filename}
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: data_feeds
+  category: Data Feeds
+  rest:
+  - getDataFeed
+  binding: GET /api/v1/feeds/{feedId}
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: web_scraper
+  category: Web Intelligence
+  rest:
+  - scrapeWeb
+  binding: POST /api/v1/tools/web-scraper
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: browser_scraper
+  category: Web Intelligence
+  rest:
+  - browserScrape
+  binding: POST /api/v1/tools/browser-scraper
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: base_analytics
+  category: Chain Analytics
+  rest:
+  - getBaseAnalytics
+  binding: POST /api/v1/tools/base-analytics
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: arc_analytics
+  category: Chain Analytics
+  rest:
+  - getArcAnalytics
+  binding: POST /api/v1/tools/arc-analytics
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: arc_network_oracle_query
+  category: Chain Analytics
+  rest:
+  - queryArcNetworkOracle
+  binding: POST /api/v1/tools/arc-network-query
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: pdf_extractor
+  category: Web Intelligence
+  rest:
+  - extractPdf
+  binding: POST /api/v1/tools/pdf-extractor
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: render_screenshot
+  category: Web Intelligence
+  rest:
+  - renderScreenshot
+  binding: POST /api/v1/tools/render-screenshot
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: extract_json
+  category: Web Intelligence
+  rest:
+  - extractJson
+  binding: POST /api/v1/tools/extract-json
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: smart_contract_verifier
+  category: Smart Contracts
+  rest:
+  - verifySmartContract
+  binding: POST /api/v1/tools/smart-contract-verifier
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: get_aerodrome_yields
+  category: DeFi
+  rest:
+  - getAerodromeYields
+  binding: GET /api/v1/tools/aerodrome-yields
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: aerodrome_swap
+  category: DeFi
+  rest:
+  - executeAerodromeSwap
+  binding: POST /api/v1/tools/aerodrome-swap
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: aerodrome_clamm
+  category: DeFi
+  rest:
+  - manageAerodromeClamm
+  binding: POST /api/v1/tools/aerodrome-clamm
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: aerodrome_veaero
+  category: DeFi
+  rest:
+  - manageAerodromeVeaero
+  binding: POST /api/v1/tools/aerodrome-veaero
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: deploy_contract
+  category: Smart Contracts
+  rest:
+  - deployBaseContract
+  binding: POST /api/v1/tools/deploy-contract
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: deploy_solana_contract
+  category: Smart Contracts
+  rest:
+  - deploySolanaContract
+  binding: POST /api/v1/tools/deploy-solana-contract
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: deploy_arc_contract
+  category: Smart Contracts
+  rest:
+  - deployArcContract
+  binding: POST /api/v1/tools/deploy-arc-contract
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+- tool: arc_cctp_bridge
+  category: Bridging
+  rest:
+  - bridgeArcCctp
+  binding: POST /api/v1/tools/arc-cctp-bridge
+  confidence: high
+  note: The provider's /.well-known/mcp.json names this exact endpoint for the tool; the live tools/list inputSchema property
+    names match the OpenAPI requestBody / path parameter names.
+mcp_only: []
+rest_only: []
+coverage:
+  tools: 19
+  tools_bound: 19
+  rest_operations: 19
+  rest_bound: 19
+  mcp_only: 0
+  rest_only: 0
+  confidence:
+    high: 19
+    medium: 0
+    low: 0

@@ -1,0 +1,108 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  https://www.warppay402.com/ ("Developer Installation — npm i @warppay402/server, npm i @warppay402/sdk"), the npm
+  registry metadata endpoints registry.npmjs.org/@warppay402/{sdk,server,mcp-client} and the npm search API
+  (text=warppay402) fetched 2026-09-19, and the GitHub organization https://github.com/Warppay402 (3 public repos:
+  warppay402-sdk, warppay402-server, sdk-test) plus the maintainer account golfgolfgolf200 that holds the
+  older mirrors and the OpenClaw plugin. PyPI (warppay402) 404; no Maven, NuGet, Go, RubyGems, Packagist or
+  crates.io packages found.
+summary:
+  first_party_sdk_count: 1
+  first_party_package_count: 4
+  note: >-
+    One official client SDK for the hosted API (@warppay402/sdk, TypeScript, wraps every metered tool and adds a
+    LangChain tool factory). @warppay402/server is the provider's own x402 monetization middleware for Hono / MCP /
+    Cloudflare Workers — first-party, but a server-side library for building your own metered API rather than a
+    client for this one. @warppay402/mcp-client is the stdio bridge into the hosted MCP server. The OpenClaw plugin
+    (@warppay402/warppay402-mcp-tools) is published on GitHub / ClawHub only, not on npm.
+  currency_signal: >-
+    All three npm packages were released in the last month: sdk 1.1.11 on 2026-09-19 (16 versions since 2026-08-19),
+    server 1.2.8 on 2026-09-16 (17 versions since 2026-08-19), mcp-client 1.0.2 on 2026-08-29. The whole surface is
+    about one month old; nothing predates the API it wraps.
+github_organization:
+  found: true
+  url: https://github.com/Warppay402
+  public_repos: 3
+  repos:
+  - https://github.com/Warppay402/warppay402-sdk
+  - https://github.com/Warppay402/warppay402-server
+  - https://github.com/Warppay402/sdk-test
+  note: >-
+    The GitHub REST API answered 403 (unauthenticated rate limit) so org creation date and email are not recorded;
+    the repo list is read from the org's HTML page. Earlier mirrors of the same repos live under github.com/golfgolfgolf200,
+    the npm maintainer account for all three packages.
+packages:
+- language: typescript
+  registry: npm
+  name: '@warppay402/sdk'
+  url: https://www.npmjs.com/package/@warppay402/sdk
+  install: npm install @warppay402/sdk
+  official: true
+  version: 1.1.11
+  published: '2026-09-19'
+  first_published: '2026-08-19'
+  versions: 16
+  license: MIT
+  repository: https://github.com/Warppay402/warppay402-sdk
+  scope: >-
+    Client for the hosted gateway: WarpPayClient({ privateKey, solanaPrivateKey }) with one method per metered tool
+    (scrapeWeb, browserScrape, renderScreenshot, extractJson, getBaseAnalytics, extractPdf, getPublicDataFeed,
+    getDataFeed, getAerodromeYields, executeAerodromeSwap, manageAerodromeClamm, manageAerodromeVeaero,
+    verifySmartContract, deployBaseContract, deploySolanaContract) and createWarpPayLangChainTools(client).
+  dependencies: [viem, '@solana/web3.js', '@solana/spl-token', bs58, '@warppay402/server']
+  evidence: Homepage "Developer Installation" block and the npm description "Official WarpPay402 TypeScript SDK".
+- language: typescript
+  registry: npm
+  name: '@warppay402/server'
+  url: https://www.npmjs.com/package/@warppay402/server
+  install: npm install @warppay402/server
+  official: true
+  version: 1.2.8
+  published: '2026-09-16'
+  first_published: '2026-08-19'
+  versions: 17
+  license: MIT
+  repository: https://github.com/Warppay402/warppay402-server
+  scope: >-
+    Server-side x402 V2 monetization middleware (monetize() for Hono routes, createMonetizedMCPTool() for MCP tools),
+    multi-chain challenge generation (eip155:8453, eip155:42161, solana mainnet-beta, eip155:5042), EIP-712
+    TransferWithAuthorization / SPL-USDC / native-USDC verification, platform fee split in bps, MemoryNonceStore and
+    RedisNonceStore replay protection, "x402-guard" pre-flight middleware; runs on Cloudflare Workers, Vercel Edge,
+    Node 18+, Deno. This is the library the WarpPay402 Self-Serve Gateway is built on, not a client.
+  dependencies: [hono, viem, '@xpaysh/x402', '@solana/web3.js', '@hono/node-server', dotenv]
+  evidence: Homepage "Developer Installation" block; npm homepage https://www.warppay402.com.
+- language: typescript
+  registry: npm
+  name: '@warppay402/mcp-client'
+  url: https://www.npmjs.com/package/@warppay402/mcp-client
+  install: npm install -g @warppay402/mcp-client
+  run: npx -y @warppay402/mcp-client
+  bin: warppay402-mcp
+  official: true
+  version: 1.0.2
+  published: '2026-08-29'
+  first_published: '2026-08-29'
+  versions: 2
+  license: null
+  repository: https://github.com/golfgolfgolf200/warppay402-mcp-tools
+  scope: >-
+    Stdio-to-SSE bridge that brings the hosted MCP server into Cursor, Windsurf and Claude Desktop and signs x402
+    payment challenges with CUSTOMER_PRIVATE_KEY. Same npm maintainer as the SDK and server; no license or repository
+    field set on the package.
+  dependencies: ['@modelcontextprotocol/sdk', '@warppay402/sdk', dotenv]
+  evidence: npm description "Stdio-to-SSE bridge for WarpPay402 MCP Gateway".
+- language: javascript
+  registry: github
+  name: '@warppay402/warppay402-mcp-tools'
+  url: https://github.com/golfgolfgolf200/warppay-mcp-skill
+  install: openclaw plugins install clawhub:@warppay402/warppay402-mcp-tools
+  official: true
+  version: 1.1.0
+  published: null
+  scope: >-
+    OpenClaw agent plugin (openclaw.plugin.json + SKILL.md) that wraps @warppay402/sdk ^1.0.4; the homepage links
+    its ClawHub listing (https://clawhub.ai/warppay402) and uses the repo's logo as og:image. Not on npm (the
+    npm search for warppay402 returns only sdk, server and mcp-client), so no registry date is available; the
+    repo README states Plugin Version 1.1.0. Its SKILL.md is saved verbatim under skills/.
+  dependencies: ['@warppay402/sdk']

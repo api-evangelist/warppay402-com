@@ -1,0 +1,82 @@
+generated: '2026-09-19'
+method: probed
+source: https://api.warppay402.com/.well-known/agent.json
+card:
+  file: a2a/warppay402-com-agent-card.json
+discovery:
+  path: /.well-known/agent.json
+  canonical: false
+  host: api.warppay402.com
+  canonical_path_behaviour: >-
+    GET https://api.warppay402.com/.well-known/agent-card.json answers HTTP 302 with Location
+    https://api.warppay402.com/.well-known/agent.json, so a redirect-following client reaches the same
+    body from the A2A 1.0.0 path; the document itself is served only at the pre-0.3 legacy location.
+  other_hosts:
+  - host: warppay402.com
+    note: 301 to www for every path.
+  - host: www.warppay402.com
+    note: Google Sites; both /.well-known/agent-card.json and /.well-known/agent.json return HTTP 404 with the site's HTML 404 page.
+  registry_listing:
+    a2a_registry: https://www.a2a-registry.org/agent/95a7cf71-3bce-4322-9bb7-215225105e72
+    note: The homepage links this listing under "A2A Global Registry"; the harvest that created this repo came from a2aregistry.org (415 agents, fetched 2026-09-19).
+  ownership: >-
+    provider.organization is "WarpPay402 Studio" with provider.url https://warppay402.com; the card's url
+    https://api.warppay402.com is the same host that serves the OpenAPI, the MCP manifest and llms.txt, and
+    the company homepage on www.warppay402.com links this exact document under "A2A Agent Manifest".
+conformance:
+  spec: A2A 1.0.0
+  grade: flavored
+  protocol_version: null
+  preferred_transport: null
+  checks:
+    capabilities_is_object: true
+    protocol_version_present: false
+    skills_is_array: true
+    preferred_transport_present: false
+    default_input_modes_present: true
+    default_output_modes_present: true
+  deviations:
+  - no-protocolVersion
+  - schema_version-field-instead-of-protocolVersion
+  - no-preferredTransport
+  - no-additionalInterfaces
+  - url-is-api-root-not-an-a2a-endpoint
+  - non-spec-top-level-fields (display_name, category, owner, manifest_url, endpoints, payment, contracts)
+  - non-spec-capabilities-flags (x402Micropayments, x402Support, agentEscrows, pendleYieldVaults, paymaster)
+  observations:
+  - >-
+    The card is a discovery manifest for an MCP + x402 REST gateway rather than a JSON-RPC A2A agent: endpoints.mcp
+    is https://api.warppay402.com/mcp?v=2 and endpoints.openapi is https://api.warppay402.com/openapi.json. No
+    A2A message/send surface is advertised and none was found; the live agent surface is the MCP server recorded
+    in mcp/warppay402-com-mcp.yml.
+  - >-
+    The payment block declares x402 with four CAIP-2 networks (eip155:8453 Base, solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp,
+    eip155:42161 Arbitrum One, eip155:5042 Arc) and USDC asset + payee per network, plus escrow, subscription-escrow,
+    bounty-escrow and paymaster contract addresses. The paymaster quoteEndpoint it names
+    (https://api.warppay402.com/api/v1/paymaster/quote) returned 404 on 2026-09-19.
+  - The 19 skills map one-to-one onto the 19 MCP tools and the 19 OpenAPI operations (see mcp/warppay402-com-tool-crosswalk.yml).
+agent_card:
+  name: WarpPay402 Gateway & Yield Engine
+  display_name: WarpPay402 MCP Gateway
+  version: 1.0.0
+  url: https://api.warppay402.com
+  provider:
+    organization: WarpPay402 Studio
+    url: https://warppay402.com
+  capabilities:
+    streaming: false
+    push_notifications: false
+  skills: 19
+  skill_ids: [public-data-feed, data-feeds, web-scraper, browser-scraper, base-analytics, arc-analytics, arc_network_oracle_query, pdf-extractor, render-screenshot, extract-json, smart-contract-verifier, aerodrome-yields, aerodrome-swap, aerodrome-clamm, aerodrome-veaero, deploy-contract, deploy-solana-contract, deploy-arc-contract, arc-cctp-bridge]
+  default_input_modes: [application/json]
+  default_output_modes: [application/json]
+x-evidence:
+  fetched: '2026-09-19'
+  url: https://api.warppay402.com/.well-known/agent.json
+  http_status: 200
+  content_type: application/json
+  bytes: 8113
+  canonical_path_probe:
+    url: https://api.warppay402.com/.well-known/agent-card.json
+    http_status: 302
+    location: https://api.warppay402.com/.well-known/agent.json

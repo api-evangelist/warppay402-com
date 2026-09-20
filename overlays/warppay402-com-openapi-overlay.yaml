@@ -1,0 +1,165 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the WarpPay402 Monetized MCP Tools API
+  version: '2026-09-19'
+  x-generated: '2026-09-19'
+  x-method: generated
+  x-source: openapi/_original/warppay402-com-openapi.json (verbatim from https://api.warppay402.com/openapi.json,
+    fetched 2026-09-19); prices from https://api.warppay402.com/.well-known/x402-manifest.json
+extends: ./_original/warppay402-com-openapi.json
+actions:
+- target: $
+  description: Add the documented gateway host as servers[]
+  update:
+    servers:
+    - url: https://api.warppay402.com
+      description: WarpPay402 Gateway (x402-metered; every operation answers 402 until a PAYMENT-SIGNATURE is presented)
+- target: $
+  description: Declare the tag set
+  update:
+    tags:
+    - name: Data Feeds
+      description: Attestation files and pre-scraped intelligence feeds
+    - name: Web Intelligence
+      description: Web, browser, PDF and screenshot extraction
+    - name: Chain Analytics
+      description: Base and Arc network / wallet telemetry
+    - name: Smart Contracts
+      description: Contract verification and deployment factories
+    - name: DeFi
+      description: Aerodrome yields, swaps, concentrated liquidity and veAERO
+    - name: Bridging
+      description: Circle CCTP cross-chain USDC transfer
+- target: $.paths['/public_data_feed/{filename}'].get
+  description: Assign operationId getPublicDataFeed and tag Data Feeds
+  update:
+    operationId: getPublicDataFeed
+    tags:
+    - Data Feeds
+    x-x402-price-usdc: '0.0001'
+- target: $.paths['/api/v1/feeds/{feedId}'].get
+  description: Assign operationId getDataFeed and tag Data Feeds
+  update:
+    operationId: getDataFeed
+    tags:
+    - Data Feeds
+    x-x402-price-usdc: '0.001'
+- target: $.paths['/api/v1/tools/web-scraper'].post
+  description: Assign operationId scrapeWeb and tag Web Intelligence
+  update:
+    operationId: scrapeWeb
+    tags:
+    - Web Intelligence
+    x-x402-price-usdc: '0.001'
+- target: $.paths['/api/v1/tools/browser-scraper'].post
+  description: Assign operationId browserScrape and tag Web Intelligence
+  update:
+    operationId: browserScrape
+    tags:
+    - Web Intelligence
+    x-x402-price-usdc: '0.005'
+- target: $.paths['/api/v1/tools/base-analytics'].post
+  description: Assign operationId getBaseAnalytics and tag Chain Analytics
+  update:
+    operationId: getBaseAnalytics
+    tags:
+    - Chain Analytics
+    x-x402-price-usdc: '0.002'
+- target: $.paths['/api/v1/tools/arc-analytics'].post
+  description: Assign operationId getArcAnalytics and tag Chain Analytics
+  update:
+    operationId: getArcAnalytics
+    tags:
+    - Chain Analytics
+    x-x402-price-usdc: '0.001'
+- target: $.paths['/api/v1/tools/arc-network-query'].post
+  description: Assign operationId queryArcNetworkOracle and tag Chain Analytics
+  update:
+    operationId: queryArcNetworkOracle
+    tags:
+    - Chain Analytics
+    x-x402-price-usdc: '0.10'
+- target: $.paths['/api/v1/tools/pdf-extractor'].post
+  description: Assign operationId extractPdf and tag Web Intelligence
+  update:
+    operationId: extractPdf
+    tags:
+    - Web Intelligence
+    x-x402-price-usdc: '0.005'
+- target: $.paths['/api/v1/tools/render-screenshot'].post
+  description: Assign operationId renderScreenshot and tag Web Intelligence
+  update:
+    operationId: renderScreenshot
+    tags:
+    - Web Intelligence
+    x-x402-price-usdc: '0.01'
+- target: $.paths['/api/v1/tools/extract-json'].post
+  description: Assign operationId extractJson and tag Web Intelligence
+  update:
+    operationId: extractJson
+    tags:
+    - Web Intelligence
+    x-x402-price-usdc: '0.01'
+- target: $.paths['/api/v1/tools/smart-contract-verifier'].post
+  description: Assign operationId verifySmartContract and tag Smart Contracts
+  update:
+    operationId: verifySmartContract
+    tags:
+    - Smart Contracts
+    x-x402-price-usdc: '0.02'
+- target: $.paths['/api/v1/tools/aerodrome-yields'].get
+  description: Assign operationId getAerodromeYields and tag DeFi
+  update:
+    operationId: getAerodromeYields
+    tags:
+    - DeFi
+    x-x402-price-usdc: '0.003'
+- target: $.paths['/api/v1/tools/aerodrome-swap'].post
+  description: Assign operationId executeAerodromeSwap and tag DeFi
+  update:
+    operationId: executeAerodromeSwap
+    tags:
+    - DeFi
+    x-x402-price-usdc: '0.01'
+- target: $.paths['/api/v1/tools/aerodrome-clamm'].post
+  description: Assign operationId manageAerodromeClamm and tag DeFi
+  update:
+    operationId: manageAerodromeClamm
+    tags:
+    - DeFi
+    x-x402-price-usdc: '0.01'
+- target: $.paths['/api/v1/tools/aerodrome-veaero'].post
+  description: Assign operationId manageAerodromeVeaero and tag DeFi
+  update:
+    operationId: manageAerodromeVeaero
+    tags:
+    - DeFi
+    x-x402-price-usdc: '0.01'
+- target: $.paths['/api/v1/tools/deploy-contract'].post
+  description: Assign operationId deployBaseContract and tag Smart Contracts
+  update:
+    operationId: deployBaseContract
+    tags:
+    - Smart Contracts
+    x-x402-price-usdc: '5.00'
+- target: $.paths['/api/v1/tools/deploy-solana-contract'].post
+  description: Assign operationId deploySolanaContract and tag Smart Contracts
+  update:
+    operationId: deploySolanaContract
+    tags:
+    - Smart Contracts
+    x-x402-price-usdc: '5.00'
+- target: $.paths['/api/v1/tools/deploy-arc-contract'].post
+  description: Assign operationId deployArcContract and tag Smart Contracts
+  update:
+    operationId: deployArcContract
+    tags:
+    - Smart Contracts
+    x-x402-price-usdc: '5.00'
+- target: $.paths['/api/v1/tools/arc-cctp-bridge'].post
+  description: Assign operationId bridgeArcCctp and tag Bridging
+  update:
+    operationId: bridgeArcCctp
+    tags:
+    - Bridging
+    x-x402-price-usdc: '0.25'

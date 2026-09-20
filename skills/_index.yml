@@ -1,0 +1,34 @@
+generated: '2026-09-19'
+method: searched
+note: >-
+  One provider-published skill saved verbatim plus three generated skills grounded in the operationIds of
+  openapi/warppay402-com-openapi.yml (assigned in the refined copy from the @warppay402/sdk method names; the
+  provider's original spec has none). No people-record endpoints exist, so nothing was excluded on PII grounds;
+  wallet addresses quoted in the provider's SKILL.md are the provider's own published examples.
+skills:
+- file: warppay402-com-provider-openclaw-skill.md
+  name: '@warppay402/warppay402-mcp-tools (provider-published OpenClaw skill)'
+  method: searched
+  source: https://raw.githubusercontent.com/golfgolfgolf200/warppay-mcp-skill/master/SKILL.md
+  fetched: '2026-09-19'
+  api: openapi/warppay402-com-openapi.yml
+  operations: [getPublicDataFeed, getDataFeed, scrapeWeb, browserScrape, getBaseAnalytics, extractPdf, renderScreenshot, extractJson, verifySmartContract]
+  note: >-
+    Verbatim. Lists 9 of the current 19 tools with the older (higher) price list and Base + Solana only; the live
+    manifests have since added Arbitrum One, Arc, Aerodrome, deployment and CCTP tools. Installed with
+    "openclaw plugins install clawhub:@warppay402/warppay402-mcp-tools"; wraps @warppay402/sdk ^1.0.4.
+- file: warppay402-com-pay-per-call-x402.md
+  name: Call a WarpPay402 tool with an x402 micropayment
+  method: generated
+  api: openapi/warppay402-com-openapi.yml
+  operations: [scrapeWeb, getDataFeed, getPublicDataFeed]
+- file: warppay402-com-web-intelligence.md
+  name: Extract web, browser, PDF and screenshot content
+  method: generated
+  api: openapi/warppay402-com-openapi.yml
+  operations: [scrapeWeb, browserScrape, extractPdf, renderScreenshot, extractJson]
+- file: warppay402-com-chain-read-before-write.md
+  name: Read on-chain state before any DeFi or deployment write
+  method: generated
+  api: openapi/warppay402-com-openapi.yml
+  operations: [getAerodromeYields, getBaseAnalytics, getArcAnalytics, queryArcNetworkOracle, verifySmartContract, executeAerodromeSwap, manageAerodromeClamm, manageAerodromeVeaero, bridgeArcCctp, deployBaseContract, deploySolanaContract, deployArcContract]

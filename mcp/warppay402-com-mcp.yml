@@ -1,0 +1,341 @@
+generated: '2026-09-19'
+method: probed
+status: published
+source: https://api.warppay402.com/mcp (JSON-RPC tools/list, initialize, resources/list, prompts/list POSTed 2026-09-19) +
+  https://api.warppay402.com/.well-known/mcp.json
+description: 'WarpPay402 operates a hosted MCP server at https://api.warppay402.com/mcp. It answers Streamable-HTTP JSON-RPC
+  POSTs directly (200 application/json) and also the legacy HTTP+SSE transport (GET /mcp opens an event stream whose first
+  event names a per-session /messages?sessionId=... endpoint; ?v=1 and ?v=2 serve the same 19 tools). initialize reports protocolVersion
+  2024-11-05, serverInfo "WarpPay402 Backend" 1.0.0 and capabilities tools/resources/prompts; resources/list and prompts/list
+  are empty. tools/list is anonymous and returns 19 tools with inputSchema. Tool invocation is metered per call in USDC through
+  the x402 protocol rather than an API key: the REST endpoint behind each tool answers HTTP 402 with a PAYMENT-REQUIRED challenge
+  until a PAYMENT-SIGNATURE is presented, and the provider ships @warppay402/mcp-client, a stdio-to-SSE bridge that signs
+  those challenges with a CUSTOMER_PRIVATE_KEY so Cursor, Windsurf and Claude Desktop can use the tools. An unauthenticated
+  tools/call from this crawler returned 200 with an empty result object rather than a 402, so the payment negotiation for
+  the MCP path is observed only through the bridge.'
+server:
+  name: WarpPay402 Backend
+  version: 1.0.0
+  transport: http
+  url: https://api.warppay402.com/mcp
+  protocol_version: '2024-11-05'
+  capabilities:
+    tools: true
+    resources: true
+    prompts: true
+  tool_count: 19
+  resource_count: 0
+  prompt_count: 0
+  legacy_sse:
+    url: https://api.warppay402.com/mcp
+    messages_endpoint_pattern: https://api.warppay402.com/messages?sessionId={uuid}&v=1
+    note: 'GET /mcp with Accept: text/event-stream opens the SSE stream; POST to the announced /messages URL returns 202 and
+      responses arrive on the stream.'
+  manifest: mcp/warppay402-com-mcp-manifest.json
+  manifest_url: https://api.warppay402.com/.well-known/mcp.json
+  tools_list_file: mcp/warppay402-com-tools-list.json
+local:
+  name: '@warppay402/mcp-client'
+  transport: stdio
+  install: npx -y @warppay402/mcp-client
+  package: https://www.npmjs.com/package/@warppay402/mcp-client
+  version: 1.0.2
+  published: '2026-08-29'
+  env:
+  - CUSTOMER_PRIVATE_KEY
+  source: https://github.com/golfgolfgolf200/warppay402-mcp-tools
+  note: 'A stdio-to-SSE bridge to the hosted server (not a standalone server): it forwards to https://api.warppay402.com/mcp
+    and signs x402 payment challenges with the configured wallet key.'
+registries:
+  official_mcp_registry:
+    url: https://registry.modelcontextprotocol.io/v0/servers?search=warppay
+    found: false
+    note: 0 results on 2026-09-19; the golfgolfgolf200/warppay402-server-mcp-registry repo is a fork of the registry codebase,
+      not a listing.
+  glama: https://glama.ai/mcp/connectors?query=namespace%3Acom.warppay402.api
+  clawhub: https://clawhub.ai/warppay402
+deployment:
+  mode: both
+  endpoint: https://api.warppay402.com/mcp
+  install: npx -y @warppay402/mcp-client
+  package: https://www.npmjs.com/package/@warppay402/mcp-client
+  auth: none
+  auth_note: 'No API key, OAuth or bearer token: tools/list, initialize, resources/list and prompts/list all answer anonymously;
+    per-call access is settled by x402 USDC micropayment (PAYMENT-SIGNATURE header on the REST resource, signed by the bridge
+    from CUSTOMER_PRIVATE_KEY). Flat-rate API access tokens are offered by email on the homepage but are not documented.'
+  verified: probed
+tools:
+- name: public_data_feed
+  description: Public attestation data feed JSON records ($0.0001 USDC)
+  inputSchema:
+    type: object
+    properties:
+      filename:
+        type: string
+    required:
+    - filename
+  price: $0.0001 USDC
+  rest: GET /public_data_feed/{filename}
+  source_operation: openapi/warppay402-com-openapi.yml#getPublicDataFeed
+- name: data_feeds
+  description: Pre-scraped AI data feeds ($0.001 USDC)
+  inputSchema:
+    type: object
+    properties:
+      feedId:
+        type: string
+    required:
+    - feedId
+  price: $0.001 USDC
+  rest: GET /api/v1/feeds/{feedId}
+  source_operation: openapi/warppay402-com-openapi.yml#getDataFeed
+- name: web_scraper
+  description: Scrapes web pages into clean markdown ($0.001 USDC)
+  inputSchema:
+    type: object
+    properties:
+      url:
+        type: string
+    required:
+    - url
+  price: $0.001 USDC
+  rest: POST /api/v1/tools/web-scraper
+  source_operation: openapi/warppay402-com-openapi.yml#scrapeWeb
+- name: browser_scraper
+  description: Unblockable JS-rendering browser scraper ($0.005 USDC)
+  inputSchema:
+    type: object
+    properties:
+      url:
+        type: string
+    required:
+    - url
+  price: $0.005 USDC
+  rest: POST /api/v1/tools/browser-scraper
+  source_operation: openapi/warppay402-com-openapi.yml#browserScrape
+- name: base_analytics
+  description: Fetches Base 0x wallet balance and nonce stats ($0.002 USDC)
+  inputSchema:
+    type: object
+    properties:
+      address:
+        type: string
+    required:
+    - address
+  price: $0.002 USDC
+  rest: POST /api/v1/tools/base-analytics
+  source_operation: openapi/warppay402-com-openapi.yml#getBaseAnalytics
+- name: arc_analytics
+  description: Fetches Arc Mainnet block height, gas fees, and node metrics ($0.001 USDC)
+  inputSchema:
+    type: object
+    properties: {}
+  price: $0.001 USDC
+  rest: POST /api/v1/tools/arc-analytics
+  source_operation: openapi/warppay402-com-openapi.yml#getArcAnalytics
+- name: arc_network_oracle_query
+  description: 'Pre-flight Arc Mainnet telemetry: RPC latency (ms), gas prices (Gwei), native USDC balance, and account nonce
+    ($0.10 USDC)'
+  inputSchema:
+    type: object
+    properties:
+      includeGasTrends:
+        type: boolean
+        default: true
+      checkMerchantAccount:
+        type: boolean
+        default: true
+  price: $0.10 USDC
+  rest: POST /api/v1/tools/arc-network-query
+  source_operation: openapi/warppay402-com-openapi.yml#queryArcNetworkOracle
+- name: pdf_extractor
+  description: Extracts plain text preview from public PDF URLs ($0.005 USDC)
+  inputSchema:
+    type: object
+    properties:
+      pdfUrl:
+        type: string
+    required:
+    - pdfUrl
+  price: $0.005 USDC
+  rest: POST /api/v1/tools/pdf-extractor
+  source_operation: openapi/warppay402-com-openapi.yml#extractPdf
+- name: render_screenshot
+  description: Captures rendered webpage screenshot image data ($0.01 USDC)
+  inputSchema:
+    type: object
+    properties:
+      url:
+        type: string
+    required:
+    - url
+  price: $0.01 USDC
+  rest: POST /api/v1/tools/render-screenshot
+  source_operation: openapi/warppay402-com-openapi.yml#renderScreenshot
+- name: extract_json
+  description: Extracts structured JSON data from web pages ($0.01 USDC)
+  inputSchema:
+    type: object
+    properties:
+      url:
+        type: string
+    required:
+    - url
+  price: $0.01 USDC
+  rest: POST /api/v1/tools/extract-json
+  source_operation: openapi/warppay402-com-openapi.yml#extractJson
+- name: smart_contract_verifier
+  description: Source code analysis, ABI fetching, and proxy validation ($0.02 USDC)
+  inputSchema:
+    type: object
+    properties:
+      address:
+        type: string
+    required:
+    - address
+  price: $0.02 USDC
+  rest: POST /api/v1/tools/smart-contract-verifier
+  source_operation: openapi/warppay402-com-openapi.yml#verifySmartContract
+- name: get_aerodrome_yields
+  description: Fetch live Aerodrome DEX pool yields, APYs, and TVL on Base Mainnet ($0.003 USDC)
+  inputSchema:
+    type: object
+    properties: {}
+  price: $0.003 USDC
+  rest: GET /api/v1/tools/aerodrome-yields
+  source_operation: openapi/warppay402-com-openapi.yml#getAerodromeYields
+- name: aerodrome_swap
+  description: Executes low-slippage token swaps directly via Aerodrome Finance Router on Base Mainnet ($0.01 USDC)
+  inputSchema:
+    type: object
+    properties:
+      tokenIn:
+        type: string
+      tokenOut:
+        type: string
+      amountIn:
+        type: string
+      decimalsIn:
+        type: number
+      isStable:
+        type: boolean
+    required:
+    - tokenIn
+    - tokenOut
+    - amountIn
+    - decimalsIn
+    - isStable
+  price: $0.01 USDC
+  rest: POST /api/v1/tools/aerodrome-swap
+  source_operation: openapi/warppay402-com-openapi.yml#executeAerodromeSwap
+- name: aerodrome_clamm
+  description: Allows agents to open, adjust, and rebalance concentrated liquidity ranges on Aerodrome Slipstream ($0.01 USDC)
+  inputSchema:
+    type: object
+    properties:
+      action:
+        type: string
+        enum:
+        - mint
+        - increaseLiquidity
+        - decreaseLiquidity
+        - collect
+    required:
+    - action
+  price: $0.01 USDC
+  rest: POST /api/v1/tools/aerodrome-clamm
+  source_operation: openapi/warppay402-com-openapi.yml#manageAerodromeClamm
+- name: aerodrome_veaero
+  description: Automates $AERO locking, epoch gauge voting, and bribe reward harvesting on Aerodrome ($0.01 USDC)
+  inputSchema:
+    type: object
+    properties:
+      action:
+        type: string
+        enum:
+        - createLock
+        - increaseAmount
+        - increaseUnlockTime
+        - vote
+        - claimBribes
+    required:
+    - action
+  price: $0.01 USDC
+  rest: POST /api/v1/tools/aerodrome-veaero
+  source_operation: openapi/warppay402-com-openapi.yml#manageAerodromeVeaero
+- name: deploy_contract
+  description: Deploys custom escrow, bounty, or agent smart contracts to Base Mainnet ($5.00 USDC)
+  inputSchema:
+    type: object
+    properties:
+      contractType:
+        type: string
+        enum:
+        - escrow
+        - bounty
+        - subscription
+        - pendle
+    required:
+    - contractType
+  price: $5.00 USDC
+  rest: POST /api/v1/tools/deploy-contract
+  source_operation: openapi/warppay402-com-openapi.yml#deployBaseContract
+- name: deploy_solana_contract
+  description: Programmatically initializes SPL Escrows, cNFT Badge Issuers, or Raydium Vaults on Solana Mainnet ($5.00 USDC)
+  inputSchema:
+    type: object
+    properties:
+      contractType:
+        type: string
+        enum:
+        - spl_escrow
+        - cnft_badge
+        - raydium_vault
+      params:
+        type: object
+    required:
+    - contractType
+  price: $5.00 USDC
+  rest: POST /api/v1/tools/deploy-solana-contract
+  source_operation: openapi/warppay402-com-openapi.yml#deploySolanaContract
+- name: deploy_arc_contract
+  description: Deploys custom escrow, bounty, or agent smart contracts to Arc Mainnet ($5.00 USDC)
+  inputSchema:
+    type: object
+    properties:
+      contractType:
+        type: string
+        enum:
+        - escrow
+        - bounty
+        - subscription
+    required:
+    - contractType
+  price: $5.00 USDC
+  rest: POST /api/v1/tools/deploy-arc-contract
+  source_operation: openapi/warppay402-com-openapi.yml#deployArcContract
+- name: arc_cctp_bridge
+  description: Bridges USDC cross-chain from Arc Mainnet via Circle CCTP ($0.25 USDC)
+  inputSchema:
+    type: object
+    properties:
+      amountUsdc:
+        type: string
+      destinationChain:
+        type: string
+        enum:
+        - ethereum
+        - avalanche
+        - optimism
+        - arbitrum
+        - solana
+        - base
+      recipientAddress:
+        type: string
+    required:
+    - amountUsdc
+    - destinationChain
+    - recipientAddress
+  price: $0.25 USDC
+  rest: POST /api/v1/tools/arc-cctp-bridge
+  source_operation: openapi/warppay402-com-openapi.yml#bridgeArcCctp

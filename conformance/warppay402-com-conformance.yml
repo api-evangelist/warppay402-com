@@ -1,0 +1,107 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Live responses from https://api.warppay402.com on 2026-09-19 (HTTP 402 challenges on POST /api/v1/tools/web-scraper,
+  GET /api/v1/feeds/base-yields and GET /public_data_feed/index.json; JSON-RPC initialize/tools/list on /mcp;
+  /.well-known/agent.json), the provider's OpenAPI at /openapi.json, and the @warppay402/server README (x402 V2
+  compliance claims). No marketing compliance page exists; the site is four Google Sites pages.
+description: >-
+  Standards the WarpPay402 surface actually conforms to, judged from what the host serves. This is a payments-for-agents
+  provider whose whole access model is the x402 protocol, so the domain-standard signature lives in the 402 response
+  itself rather than in the OpenAPI, which declares no securitySchemes.
+domain_standard:
+  id: x402
+  version: 2
+  conforms: true
+  role: resource server (merchant) — every metered operation issues the challenge and verifies the settlement
+  evidence:
+  - url: https://api.warppay402.com/api/v1/tools/web-scraper
+    observed: >-
+      POST without payment -> HTTP 402; response header PAYMENT-REQUIRED (base64 JSON) and body {"error":"Payment required",
+      "x402Version":2,"resource":{url,description,mimeType},"accepts":[{scheme:"exact",network:"eip155:8453",asset:<Base USDC>,
+      amount:"1000",maxTimeoutSeconds:300,payTo},...solana, eip155:42161, eip155:5042],"extensions":{"bazaar":{schemaVersion "2.0",
+      JSON Schema 2020-12 input schema, info.input/output}}}; Access-Control-Expose-Headers: PAYMENT-REQUIRED, PAYMENT-RESPONSE;
+      X-Guard-Inspected: true.
+  - url: https://api.warppay402.com/.well-known/x402-manifest.json
+    observed: HTTP 200, 19 endpoints with method + costUSD, paymentNetwork eip155:8453, acceptedAsset Base USDC.
+  - url: openapi/warppay402-com-openapi.yml
+    observed: every operation declares a 402 response ("Payment Required - x402 USDC micropayment challenge").
+  note: >-
+    x402 is the de-facto standard for HTTP-native agent micropayments (Coinbase-originated, open spec). It is not yet a
+    scored standard in scoring.yml (memory x402-adoption-measured: measure, do not score) — recorded here as evidence,
+    with the challenge observed on the documented operation path rather than the base URL.
+conformance:
+- id: x402
+  conforms: true
+  version: '2'
+  evidence: see domain_standard above — live 402 with PAYMENT-REQUIRED header and x402Version 2 body on three operation paths.
+- id: x402-bazaar-discovery-extension
+  conforms: true
+  version: '2.0'
+  evidence: extensions.bazaar block in every observed 402 body (schemaVersion "2.0", per-tool JSON Schema 2020-12 input schema, info.input / info.output examples).
+- id: caip-2
+  conforms: true
+  evidence: >-
+    Network identifiers are CAIP-2 chain ids throughout (eip155:8453, eip155:42161, eip155:5042,
+    solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp) in the 402 accepts[], the agent card payment.networks and the SDK README.
+- id: json-schema-2020-12
+  conforms: true
+  evidence: >-
+    $schema https://json-schema.org/draft/2020-12/schema on the bazaar input schemas in the 402 body; MCP tools/list
+    inputSchema objects are plain JSON Schema (no $schema declared).
+- id: mcp
+  conforms: true
+  version: '2024-11-05'
+  evidence: >-
+    POST https://api.warppay402.com/mcp initialize -> {"protocolVersion":"2024-11-05","capabilities":{"tools":{},"resources":{},"prompts":{}},
+    "serverInfo":{"name":"WarpPay402 Backend","version":"1.0.0"}}; tools/list returns 19 tools with inputSchema. Both the
+    Streamable-HTTP style (direct JSON response to POST) and the legacy HTTP+SSE transport (GET /mcp -> event: endpoint) are served.
+- id: a2a
+  conforms: false
+  grade: flavored
+  evidence: >-
+    /.well-known/agent.json (legacy path; canonical agent-card.json 302s to it) has capabilities as an object and skills as
+    an array but no protocolVersion, no preferredTransport and no A2A endpoint — a discovery manifest for the MCP/x402
+    gateway. Detail in a2a/warppay402-com-a2a.yml.
+- id: openapi-3.1
+  conforms: true
+  evidence: >-
+    https://api.warppay402.com/openapi.json declares openapi 3.1.0 with 19 path operations; no components.schemas,
+    no securitySchemes, no servers[] (added in the refined copy from the documented base).
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    Error bodies are {"error": "<message>", ...} JSON (402) or text/plain "404 Not Found"; no application/problem+json anywhere.
+- id: oauth2
+  conforms: false
+  evidence: No OAuth surface — /.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource 404 on api.warppay402.com; access is paid per call, not delegated.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration 404 on all hosts.
+- id: rfc8414
+  conforms: false
+  evidence: /.well-known/oauth-authorization-server 404.
+- id: rfc9728
+  conforms: false
+  evidence: /.well-known/oauth-protected-resource 404 on the API/MCP host.
+- id: rfc9116
+  conforms: false
+  evidence: /.well-known/security.txt 404 on warppay402.com (301->www), www.warppay402.com and api.warppay402.com.
+- id: rfc9727
+  conforms: false
+  evidence: /.well-known/api-catalog 404 on all hosts.
+- id: pagination
+  conforms: false
+  evidence: No list operations; nothing paginates.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header or equivalent is documented for the REST tools. The @warppay402/server README documents
+    server-side nonce stores (MemoryNonceStore / RedisNonceStore) that reject a replayed PAYMENT-SIGNATURE — replay
+    protection for the payment, not a client-controlled idempotent-retry contract for the operation.
+- id: rfc8594
+  conforms: false
+  evidence: No Deprecation or Sunset headers observed; no deprecation policy published.
+compliance_program:
+  certifications: []
+  note: No SOC 2 / ISO 27001 / PCI claims anywhere on the site, npm READMEs or GitHub; no trust center. No Compliance pointer emitted.
