@@ -36,6 +36,22 @@ tags:
 - Base
 - Solana
 - Smart Contracts
+- Data Feed
+- Developer Tools
+tags_raw:
+- x402
+- Micropayments
+- AI Agents
+- MCP
+- A2A
+- agent-native
+- Web Scraping
+- Data Extraction
+- Blockchain
+- DeFi
+- Base
+- Solana
+- Smart Contracts
 - Data Feeds
 - Developer Tools
 apis:
@@ -56,7 +72,7 @@ apis:
   - Data Extraction
   - DeFi
   - Smart Contracts
-  - Data Feeds
+  - Data Feed
   tags_raw:
   - x402
   - web-scraping
@@ -64,6 +80,7 @@ apis:
   - defi
   - smart-contracts
   - data-feeds
+  - Data Feeds
   properties:
   - type: OpenAPI
     url: openapi/warppay402-com-openapi.yml
