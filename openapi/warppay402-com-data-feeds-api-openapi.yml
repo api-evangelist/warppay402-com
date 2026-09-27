@@ -1,0 +1,58 @@
+openapi: 3.2.0
+info:
+  title: WarpPay402 Monetized MCP Tools Data Feeds API
+  description: Ultra-low-cost pay-per-use AI developer tools monetized via x402 micro-payments on Base Mainnet, Solana, Arbitrum One, and Arc Mainnet (USDC).
+  version: 1.0.0
+  x-api-evangelist:
+    refined: '2026-09-19'
+    from: openapi/_original/warppay402-com-openapi.json
+    changes: added servers[] (the host the provider documents as "REST Gateway Base" in @warppay402/sdk and the baseUrl of /.well-known/x402-manifest.json), operationId per operation (named after the @warppay402/sdk client methods where one exists), tags, and x-x402-price-usdc from the provider's own x402 manifest; nothing else altered
+servers:
+- url: https://api.warppay402.com
+  description: WarpPay402 Gateway (x402-metered; every operation answers 402 until a PAYMENT-SIGNATURE is presented)
+tags:
+- name: Data Feeds
+  description: Attestation files and pre-scraped intelligence feeds
+paths:
+  /public_data_feed/{filename}:
+    get:
+      summary: Protected Public Data Feed Files
+      description: Retrieves signed attestation JSON payloads from the public data feed. Costs $0.0001 USDC on Base, Solana, Arbitrum, or Arc.
+      parameters:
+      - name: filename
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response returning requested attestation data.
+        '402':
+          description: Payment Required - x402 USDC micropayment challenge.
+        '404':
+          description: Requested attestation file not found.
+      operationId: getPublicDataFeed
+      tags:
+      - Data Feeds
+      x-x402-price-usdc: '0.0001'
+  /api/v1/feeds/{feedId}:
+    get:
+      summary: Pre-Scraped Intelligence Data Feeds
+      description: Fetches live cached market data (Base Yields, Trending Pairs). Costs $0.001 USDC.
+      parameters:
+      - name: feedId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response returning cached JSON report.
+        '402':
+          description: Payment Required - x402 USDC micropayment challenge.
+        '404':
+          description: Requested feed ID not found or pending initial scrape.
+      operationId: getDataFeed
+      tags:
+      - Data Feeds
+      x-x402-price-usdc: '0.001'

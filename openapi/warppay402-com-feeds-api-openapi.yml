@@ -1,0 +1,29 @@
+openapi: 3.2.0
+info:
+  title: WarpPay402 Monetized MCP Tools Feeds API
+  description: Ultra-low-cost pay-per-use AI developer tools monetized via x402 micro-payments on Base Mainnet, Solana, Arbitrum One, and Arc Mainnet (USDC).
+  version: 1.0.0
+tags:
+- name: Feeds
+paths:
+  /api/v1/feeds/{feedId}:
+    get:
+      summary: Pre-Scraped Intelligence Data Feeds
+      description: Fetches live cached market data (Base Yields, Trending Pairs). Costs $0.001 USDC.
+      parameters:
+      - name: feedId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response returning cached JSON report.
+        '402':
+          description: Payment Required - x402 USDC micropayment challenge.
+        '404':
+          description: Requested feed ID not found or pending initial scrape.
+      tags:
+      - Feeds
+      operationId: getApiV1FeedsByFeedId
+      x-operation-id-source: derived

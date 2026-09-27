@@ -1,0 +1,148 @@
+openapi: 3.2.0
+info:
+  title: WarpPay402 Monetized MCP Tools De Fi API
+  description: Ultra-low-cost pay-per-use AI developer tools monetized via x402 micro-payments on Base Mainnet, Solana, Arbitrum One, and Arc Mainnet (USDC).
+  version: 1.0.0
+  x-api-evangelist:
+    refined: '2026-09-19'
+    from: openapi/_original/warppay402-com-openapi.json
+    changes: added servers[] (the host the provider documents as "REST Gateway Base" in @warppay402/sdk and the baseUrl of /.well-known/x402-manifest.json), operationId per operation (named after the @warppay402/sdk client methods where one exists), tags, and x-x402-price-usdc from the provider's own x402 manifest; nothing else altered
+servers:
+- url: https://api.warppay402.com
+  description: WarpPay402 Gateway (x402-metered; every operation answers 402 until a PAYMENT-SIGNATURE is presented)
+tags:
+- name: DeFi
+  description: Aerodrome yields, swaps, concentrated liquidity and veAERO
+paths:
+  /api/v1/tools/aerodrome-yields:
+    get:
+      summary: Aerodrome DEX Yield Optimizer
+      description: Fetches top live Aerodrome DEX yield pools, APYs, and TVL on Base Mainnet ($0.003 USDC).
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: getAerodromeYields
+      tags:
+      - DeFi
+      x-x402-price-usdc: '0.003'
+  /api/v1/tools/aerodrome-swap:
+    post:
+      summary: Aerodrome DEX Swap Execution Engine
+      description: Executes token swaps via Aerodrome vAMM/sAMM routes on Base Mainnet ($0.01 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tokenIn:
+                  type: string
+                tokenOut:
+                  type: string
+                amountIn:
+                  type: string
+                decimalsIn:
+                  type: number
+                isStable:
+                  type: boolean
+              required:
+              - tokenIn
+              - tokenOut
+              - amountIn
+              - decimalsIn
+              - isStable
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: executeAerodromeSwap
+      tags:
+      - DeFi
+      x-x402-price-usdc: '0.01'
+  /api/v1/tools/aerodrome-clamm:
+    post:
+      summary: Aerodrome Slipstream CLAMM LP Route
+      description: Allows agents to open, adjust, and rebalance concentrated liquidity ranges ($0.01 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  enum:
+                  - mint
+                  - increaseLiquidity
+                  - decreaseLiquidity
+                  - collect
+                token0:
+                  type: string
+                token1:
+                  type: string
+                tickLower:
+                  type: number
+                tickUpper:
+                  type: number
+                amount0Desired:
+                  type: string
+                amount1Desired:
+                  type: string
+                tokenId:
+                  type: string
+              required:
+              - action
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: manageAerodromeClamm
+      tags:
+      - DeFi
+      x-x402-price-usdc: '0.01'
+  /api/v1/tools/aerodrome-veaero:
+    post:
+      summary: Aerodrome veAERO Lock & Vote Route
+      description: Automates $AERO locking, epoch gauge voting, and bribe reward harvesting ($0.01 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  enum:
+                  - createLock
+                  - increaseAmount
+                  - increaseUnlockTime
+                  - vote
+                  - claimBribes
+                amount:
+                  type: string
+                lockDurationWeeks:
+                  type: number
+                tokenId:
+                  type: string
+                poolVoteAddresses:
+                  type: array
+                  items:
+                    type: string
+              required:
+              - action
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: manageAerodromeVeaero
+      tags:
+      - DeFi
+      x-x402-price-usdc: '0.01'

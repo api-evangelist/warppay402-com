@@ -1,0 +1,29 @@
+openapi: 3.2.0
+info:
+  title: WarpPay402 Monetized MCP Tools Public Data Feed API
+  description: Ultra-low-cost pay-per-use AI developer tools monetized via x402 micro-payments on Base Mainnet, Solana, Arbitrum One, and Arc Mainnet (USDC).
+  version: 1.0.0
+tags:
+- name: Public Data Feed
+paths:
+  /public_data_feed/{filename}:
+    get:
+      summary: Protected Public Data Feed Files
+      description: Retrieves signed attestation JSON payloads from the public data feed. Costs $0.0001 USDC on Base, Solana, Arbitrum, or Arc.
+      parameters:
+      - name: filename
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response returning requested attestation data.
+        '402':
+          description: Payment Required - x402 USDC micropayment challenge.
+        '404':
+          description: Requested attestation file not found.
+      tags:
+      - Public Data Feed
+      operationId: getPublicDataFeedByFilename
+      x-operation-id-source: derived

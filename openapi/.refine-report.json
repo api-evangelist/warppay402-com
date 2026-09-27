@@ -1,0 +1,52 @@
+{
+  "provider": "warppay402-com",
+  "sources": [
+    "_original/warppay402-com-openapi.json",
+    "warppay402-com-openapi.yml"
+  ],
+  "outputs": [
+    "warppay402-com-feeds-api-openapi.yml",
+    "warppay402-com-public-data-feed-api-openapi.yml",
+    "warppay402-com-tools-api-openapi.yml",
+    "warppay402-com-bridging-api-openapi.yml",
+    "warppay402-com-chain-analytics-api-openapi.yml",
+    "warppay402-com-data-feeds-api-openapi.yml",
+    "warppay402-com-defi-api-openapi.yml",
+    "warppay402-com-smart-contracts-api-openapi.yml",
+    "warppay402-com-web-intelligence-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/warppay402-com-openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "warppay402-com-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "warppay402-com-openapi.json: tagged paths GET /public_data_feed/{filename} -> Public Data Feed",
+    "warppay402-com-openapi.json: tagged paths GET /api/v1/feeds/{feedId} -> Feeds",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/web-scraper -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/browser-scraper -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/base-analytics -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/arc-analytics -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/arc-network-query -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/pdf-extractor -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/render-screenshot -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/extract-json -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/smart-contract-verifier -> Tools",
+    "warppay402-com-openapi.json: tagged paths GET /api/v1/tools/aerodrome-yields -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/aerodrome-swap -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/aerodrome-clamm -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/aerodrome-veaero -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/deploy-contract -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/deploy-solana-contract -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/deploy-arc-contract -> Tools",
+    "warppay402-com-openapi.json: tagged paths POST /api/v1/tools/arc-cctp-bridge -> Tools",
+    "warppay402-com-openapi.json: declared missing tag: Feeds",
+    "warppay402-com-openapi.json: declared missing tag: Public Data Feed",
+    "warppay402-com-openapi.json: declared missing tag: Tools",
+    "warppay402-com-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: written (+9 apis, 10 total)"
+  ],
+  "skipped": []
+}

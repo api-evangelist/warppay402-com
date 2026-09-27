@@ -1,0 +1,127 @@
+openapi: 3.2.0
+info:
+  title: WarpPay402 Monetized MCP Tools Smart Contracts API
+  description: Ultra-low-cost pay-per-use AI developer tools monetized via x402 micro-payments on Base Mainnet, Solana, Arbitrum One, and Arc Mainnet (USDC).
+  version: 1.0.0
+  x-api-evangelist:
+    refined: '2026-09-19'
+    from: openapi/_original/warppay402-com-openapi.json
+    changes: added servers[] (the host the provider documents as "REST Gateway Base" in @warppay402/sdk and the baseUrl of /.well-known/x402-manifest.json), operationId per operation (named after the @warppay402/sdk client methods where one exists), tags, and x-x402-price-usdc from the provider's own x402 manifest; nothing else altered
+servers:
+- url: https://api.warppay402.com
+  description: WarpPay402 Gateway (x402-metered; every operation answers 402 until a PAYMENT-SIGNATURE is presented)
+tags:
+- name: Smart Contracts
+  description: Contract verification and deployment factories
+paths:
+  /api/v1/tools/smart-contract-verifier:
+    post:
+      summary: Base Smart Contract Verifier
+      description: Source code analysis, ABI fetching, and proxy validation ($0.02 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+              required:
+              - address
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: verifySmartContract
+      tags:
+      - Smart Contracts
+      x-x402-price-usdc: '0.02'
+  /api/v1/tools/deploy-contract:
+    post:
+      summary: Smart Contract Deployment Factory
+      description: Programmatically deploys custom Escrow, Bounty, or Agent contracts directly to Base Mainnet ($5.00 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contractType:
+                  type: string
+                  enum:
+                  - escrow
+                  - bounty
+                  - subscription
+                  - pendle
+              required:
+              - contractType
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: deployBaseContract
+      tags:
+      - Smart Contracts
+      x-x402-price-usdc: '5.00'
+  /api/v1/tools/deploy-solana-contract:
+    post:
+      summary: Solana Contract Deployment Factory
+      description: Programmatically initializes SPL Escrows, cNFT Badge Issuers, or Raydium Vaults on Solana Mainnet ($5.00 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contractType:
+                  type: string
+                  enum:
+                  - spl_escrow
+                  - cnft_badge
+                  - raydium_vault
+                params:
+                  type: object
+              required:
+              - contractType
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: deploySolanaContract
+      tags:
+      - Smart Contracts
+      x-x402-price-usdc: '5.00'
+  /api/v1/tools/deploy-arc-contract:
+    post:
+      summary: Arc Smart Contract Factory
+      description: Programmatically deploys custom Escrow, Bounty, or Agent smart contracts directly to Arc Mainnet ($5.00 USDC).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contractType:
+                  type: string
+                  enum:
+                  - escrow
+                  - bounty
+                  - subscription
+              required:
+              - contractType
+      responses:
+        '200':
+          description: Success
+        '402':
+          description: Payment Required
+      operationId: deployArcContract
+      tags:
+      - Smart Contracts
+      x-x402-price-usdc: '5.00'
