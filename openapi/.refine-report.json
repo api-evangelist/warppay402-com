@@ -1,26 +1,20 @@
 {
   "provider": "warppay402-com",
   "sources": [
-    "_original/warppay402-com-openapi.json",
-    "warppay402-com-openapi.yml"
+    "_original/warppay402-com-openapi.json"
   ],
   "outputs": [
     "warppay402-com-feeds-api-openapi.yml",
     "warppay402-com-public-data-feed-api-openapi.yml",
-    "warppay402-com-tools-api-openapi.yml",
-    "warppay402-com-bridging-api-openapi.yml",
-    "warppay402-com-chain-analytics-api-openapi.yml",
-    "warppay402-com-data-feeds-api-openapi.yml",
-    "warppay402-com-defi-api-openapi.yml",
-    "warppay402-com-smart-contracts-api-openapi.yml",
-    "warppay402-com-web-intelligence-api-openapi.yml"
+    "warppay402-com-tools-api-openapi.yml"
   ],
   "archived": [
-    "archived openapi/warppay402-com-openapi.yml"
+    "deleted 6 superseded output(s) from the previous generation"
   ],
   "errors": [],
   "warnings": [],
   "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "warppay402-com-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "warppay402-com-openapi.json: tagged paths GET /public_data_feed/{filename} -> Public Data Feed",
@@ -45,8 +39,19 @@
     "warppay402-com-openapi.json: declared missing tag: Feeds",
     "warppay402-com-openapi.json: declared missing tag: Public Data Feed",
     "warppay402-com-openapi.json: declared missing tag: Tools",
-    "warppay402-com-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "apis.yml register: written (+9 apis, 10 total)"
+    "superseded outputs removed: warppay402-com-bridging-api-openapi.yml, warppay402-com-chain-analytics-api-openapi.yml, warppay402-com-data-feeds-api-openapi.yml, warppay402-com-defi-api-openapi.yml, warppay402-com-smart-contracts-api-openapi.yml \u2026",
+    "apis.yml register: written (+0 apis, 4 total)"
   ],
-  "skipped": []
+  "skipped": [
+    "_original/warppay402-com-openapi.yml: archived document superseded by a larger archived document",
+    "warppay402-com-bridging-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "warppay402-com-chain-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "warppay402-com-data-feeds-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "warppay402-com-defi-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "warppay402-com-feeds-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "warppay402-com-public-data-feed-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "warppay402-com-smart-contracts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "warppay402-com-tools-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "warppay402-com-web-intelligence-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
