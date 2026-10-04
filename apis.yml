@@ -114,6 +114,8 @@ apis:
   humanURL: https://www.warppay402.com/
   baseURL: https://api.warppay402.com
   tags:
+  - Feed
+  tags_raw:
   - Feeds
   properties:
   - type: OpenAPI
