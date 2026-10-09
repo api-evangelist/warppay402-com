@@ -1,0 +1,36 @@
+# Front Door AI Index — warppay402-com — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: warppay402-com
+  lexicon_version: '1.0'
+  probed_at: '2026-09-25'
+  host: warppay402.com
+  final_host: www.warppay402.com
+  ownership: own
+  owner: warppay402-com
+  shares_host_with: null
+  inherited_from: null
+  alias_of: null
+  verdict: scored
+  score: 30
+  band: 6
+  band_label: dominant
+  host_score: 30
+  density: 32.5
+  words: 923
+  tiers:
+    agentic: 17
+    core: 13
+    model: 0
+  ambiguous: 23
+  top_terms:
+    agent: 15
+    AI: 11
+    AI agent: 9
+    MCP: 5
+    intelligence: 4
+    smart: 4
+    LLMs: 2
+    model context protocol: 2
+    agentic: 1

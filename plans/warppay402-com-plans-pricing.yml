@@ -270,3 +270,25 @@ plans:
 self_serve_gateway:
   note: For developers monetizing their own APIs through the WarpPay402 Self-Serve Gateway the homepage states a 95% payout
     of every call fee (a 5% platform fee), paid in USDC to the developer wallet; @warppay402/server exposes this as platformFeeBps.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  - negotiated
+  units:
+  - request
+  plans:
+  - name: Pay-per-call (x402)
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - request
+    periods: []
+  - name: Flat-rate monthly access token
+    access: negotiated
+    model: negotiated
+    model_how: stated
+    units: []
+    periods: []

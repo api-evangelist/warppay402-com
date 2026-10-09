@@ -1,4 +1,4 @@
-generated: '2026-09-19'
+generated: '2026-09-23'
 method: generated
 source: openapi/warppay402-com-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
@@ -7,11 +7,11 @@ description: Recommended x-agentic-access execution contracts, classified heuris
 summary:
   operations: 19
   by_action_class:
-    connected: 3
-    acting: 16
+    connected: 6
+    acting: 13
   by_consequence:
-    read: 3
-    write: 13
+    read: 6
+    write: 10
     physical: 3
   human_in_the_loop_required: 0
 operations:
@@ -71,50 +71,32 @@ operations:
   method: post
   operationId: getBaseAnalytics
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /api/v1/tools/arc-analytics
   method: post
   operationId: getArcAnalytics
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /api/v1/tools/arc-network-query
   method: post
   operationId: queryArcNetworkOracle
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /api/v1/tools/pdf-extractor
   method: post
   operationId: extractPdf
