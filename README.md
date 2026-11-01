@@ -64,10 +64,122 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-WarpPay402 Studio operates WarpPay402, a non-custodial x402 monetization gateway and hosted MCP tool suite for autonomous AI agents: nineteen pay-per-use tools (web, browser and PDF extraction, screenshots, schema-driven JSON extraction, Base and Arc analytics, Basescan contract verification, Aerodrome DeFi routes, Base/Solana/Arc contract deployment factories and Circle CCTP bridging) exposed as a REST API (OpenAPI 3.1 at api.warppay402.com/openapi.json), a hosted MCP server (api.warppay402.com/mcp) and an agent card (/.well-known/agent.json). There are no API keys: every call answers HTTP 402 with an x402 v2 challenge and settles in USDC on Base, Solana, Arbitrum One or Arc.
+WarpPay402 Studio operates WarpPay402, a non-custodial x402 monetization gateway and hosted MCP tool suite for autonomous AI agents. Nineteen pay-per-use tools — Markdown and headless-browser web scraping, PDF text extraction, full-page screenshots, schema-driven JSON extraction, Base and Arc network analytics, Basescan contract verification, Aerodrome yield, swap, concentrated-liquidity and veAERO routes, contract deployment factories for Base, Solana and Arc, and Circle CCTP bridging — are exposed three ways from one host: a REST API described by an OpenAPI 3.1 document at api.warppay402.com/openapi.json, a hosted MCP server at api.warppay402.com/mcp (Streamable HTTP and legacy SSE, 19 tools listed anonymously), and an agent card at /.well-known/agent.json. There are no API keys: every call answers HTTP 402 with an x402 v2 PAYMENT-REQUIRED challenge and settles in USDC on Base, Solana, Arbitrum One or Arc (prices from $0.0001 to $5.00 per call), with flat-rate access tokens offered by email. The company also publishes @warppay402/server, the x402 middleware its Self-Serve Gateway is built on, so other developers can wrap their own APIs and MCP tools in the same 402 challenge, and @warppay402/sdk plus a stdio MCP bridge for Cursor, Windsurf and Claude Desktop. The site is a Google Sites page; all documentation lives on it and in the npm READMEs.
 
-- Website: https://warppay402.com/
-- API host: https://api.warppay402.com (OpenAPI, MCP, llms.txt, x402 and MCP manifests)
-- GitHub: https://github.com/Warppay402 · npm: @warppay402/sdk, @warppay402/server, @warppay402/mcp-client
+**Areas:** x402 · Micropayments · AI Agents · MCP · A2A · Agent-Native · Web Scraping · Data Extraction · Blockchain · DeFi · Base · Solana
 
-Profiled by the API Evangelist enrichment pipeline (local-v3) on 2026-09-19 from the surfaces listed in `apis.yml`.
+## WarpPay402 Studio on APIs.io
+
+Everything profiled for WarpPay402 Studio is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/warppay402-com/](https://apis.io/providers/warppay402-com/)** — or go straight to one of the APIs or properties below.
+
+### APIs (4)
+
+- [WarpPay402 MCP Server](https://apis.io/apis/warppay402-com/warppay402-mcp-server/) — Hosted MCP server at https://api.warppay402.com/mcp exposing the same 19 tools as the REST API (public_data_feed, data_feeds, web_scraper, browser_scraper,…
+- [WarpPay402 Studio Feeds API](https://apis.io/apis/warppay402-com/warppay402-com-feeds-api/) — The Feeds API from WarpPay402 Studio — 1 operation(s) for feeds.
+- [WarpPay402 Studio Public Data Feed API](https://apis.io/apis/warppay402-com/warppay402-com-public-data-feed-api/) — The Public Data Feed API from WarpPay402 Studio — 1 operation(s) for public data feed.
+- [WarpPay402 Studio Tools API](https://apis.io/apis/warppay402-com/warppay402-com-tools-api/) — The Tools API from WarpPay402 Studio — 17 operation(s) for tools.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [WarpPay402 Backend](https://apis.io/servers/warppay402-com/warppay402-backend/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Warppay402 Com Agentic Access](https://apis.io/agentic-access/warppay402-com/warppay402-com-agentic-access/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Warppay402 Com Openapi Overlay](https://apis.io/overlays/warppay402-com/warppay402-com-openapi-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Warppay402 Com Authentication](https://apis.io/security/warppay402-com/warppay402-com-authentication/)
+- [Warppay402 Com Domain Security](https://apis.io/security/warppay402-com/warppay402-com-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Warppay402 Com Plans Pricing](https://apis.io/plans/warppay402-com/warppay402-com-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Warppay402 Com Rate Limits](https://apis.io/rate-limits/warppay402-com/warppay402-com-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://warppay402.com/)
+- [Terms of service](https://www.warppay402.com/terms-of-service)
+- [Privacy policy](https://www.warppay402.com/privacy-policy)
+- [GitHub](https://github.com/Warppay402)
+
+## API Evangelist rating
+
+**Kin Score 40.6** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 39.8 |
+| Contract governance | 18.2 |
+| Operational transparency | 5.3 |
+| Developer ergonomics | 45.2 |
+| Access clarity | 52.6 |
+
+**Agent readiness 32.6** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | flavored (partial credit) |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/warppay402-com/](https://apis.io/providers/warppay402-com/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for WarpPay402 Studio: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/warppay402-com/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
